@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eaglercraft Central</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .btn-launch {
+            transition: all 0.3s ease;
+        }
+        .btn-launch:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .card {
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: scale(1.03);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white">
+
+    <div class="container mx-auto px-4 py-8">
+
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-5xl font-bold text-cyan-400 mb-2">Eaglercraft Central</h1>
+            <p class="text-lg text-gray-300">Your one-stop hub for all things Eaglercraft</p>
+        </header>
+
+        <!-- Eaglercraft Clients -->
+        <section id="clients" class="mb-16">
+            <h2 class="text-3xl font-semibold border-b-2 border-cyan-500 pb-2 mb-8 text-cyan-300">Game Clients</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Eaglercraft 1.8.8 -->
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg card flex flex-col">
+                    <h3 class="text-2xl font-bold mb-4 text-white">Eaglercraft 1.8.8</h3>
+                    <p class="text-gray-400 mb-6 flex-grow">The classic and widely used version, perfect for PvP and a stable experience.</p>
+                    <a href="https://eaglercraft.com/mc/1.8.8/" target="_blank" class="mt-auto inline-block bg-cyan-500 text-white font-bold py-3 px-6 rounded-lg btn-launch hover:bg-cyan-600 text-center">
+                        Launch 1.8.8 Client
+                    </a>
+                </div>
+                <!-- Eaglercraft 1.12.2 -->
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg card flex flex-col">
+                    <h3 class="text-2xl font-bold mb-4 text-white">Eaglercraft 1.12.2</h3>
+                    <p class="text-gray-400 mb-6 flex-grow">A newer version with more modern features, although less common for servers.</p>
+                    <a href="https://eaglercraft.com/mc/1.12.2" target="_blank" class="mt-auto inline-block bg-teal-500 text-white font-bold py-3 px-6 rounded-lg btn-launch hover:bg-teal-600 text-center">
+                        Launch 1.12.2 Client
+                    </a>
+                </div>
+                <!-- Pixel Client -->
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg card flex flex-col">
+                    <h3 class="text-2xl font-bold mb-4 text-white">Pixel Client</h3>
+                    <p class="text-gray-400 mb-6 flex-grow">A popular custom 1.8.8 client with added features and a unique aesthetic.</p>
+                    <a href="https://devjakob.webs.vc/launcher/wasm-1.12.2//" target="_blank" class="mt-auto inline-block bg-purple-500 text-white font-bold py-3 px-6 rounded-lg btn-launch hover:bg-purple-600 text-center">
+                        Launch Pixel Client
+                    </a>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Mods and Resource Packs -->
+        <section id="customization">
+            <h2 class="text-3xl font-semibold border-b-2 border-purple-500 pb-2 mb-8 text-purple-300">Mods & Resource Packs</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Mods -->
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                    <h3 class="text-2xl font-bold mb-4 text-white">EaglerForge Mods</h3>
+                    <p class="text-gray-400 mb-4">EaglerForge allows some client-side mods to be used. These are typically packaged as `.js` files. Finding mods can be tricky and often requires searching through communities on Discord, GitHub, or specialized websites.</p>
+                    <p class="text-gray-400"><strong>How to find them:</strong> A great resource for mods is <a href="https://eaglerrinth.github.io" target="_blank" class="text-cyan-400 hover:underline">Eaglerrinth</a>. You can also search on GitHub or YouTube. Be cautious about where you download files from.</p>
+                </div>
+                <!-- Resource Packs -->
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                    <h3 class="text-2xl font-bold mb-4 text-white">Resource Packs</h3>
+                    <p class="text-gray-400 mb-4">You can use standard Minecraft 1.8.8 or 1.12.2 resource packs! Eaglercraft has a built-in feature to load them. Just download a compatible pack, and in the Eaglercraft settings, you can select and load the `.zip` file from your computer.</p>
+                    <p class="text-gray-400"><strong>How to find them:</strong> Search for "Minecraft 1.8.8 resource packs" (or 1.12.2) on websites like Planet Minecraft, CurseForge, and <a href="https://modrinth.com" target="_blank" class="text-cyan-400 hover:underline">Modrinth</a>.</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center p-6 mt-12 bg-gray-800 border-t border-gray-700">
+        <p class="text-gray-500">Disclaimer: This website is a fan-made resource and is not affiliated with Mojang or the official Eaglercraft developers. Always be careful when downloading files from the internet.</p>
+    </footer>
+
+</body>
+</html>
