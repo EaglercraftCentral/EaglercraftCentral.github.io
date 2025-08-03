@@ -10,6 +10,7 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
         }
         .btn-launch {
             transition: all 0.3s ease;
@@ -23,6 +24,20 @@
         }
         .card:hover {
             transform: scale(1.03);
+        }
+        /* Style for form inputs */
+        .form-input {
+            background-color: #374151; /* bg-gray-700 */
+            border: 1px solid #4B5563; /* border-gray-600 */
+            color: #F9FAFB; /* text-gray-50 */
+            border-radius: 0.5rem; /* rounded-lg */
+            padding: 0.75rem 1rem; /* py-3 px-4 */
+            width: 100%;
+            transition: border-color 0.2s;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #2563EB; /* border-blue-600 */
         }
     </style>
 
@@ -39,14 +54,14 @@
     <div class="container mx-auto px-4 py-8">
 
         <header class="text-center mb-12">
-            <img src="images/logo.png" alt="Eaglercraft Central Logo" class="mx-auto h-24 mb-4">
+            <img src="images/logo.png" alt="Eaglercraft Central Logo" class="mx-auto h-24 mb-4" onerror="this.style.display='none'">
             <h1 class="text-5xl font-bold text-cyan-400 mb-2">Eaglercraft Central</h1>
             <p class="text-lg text-gray-300">Your one-stop hub for all things Eaglercraft</p>
         </header>
 
         <section id="clients" class="mb-16">
             <h2 class="text-3xl font-semibold border-b-2 border-cyan-500 pb-2 mb-8 text-cyan-300">Game Clients</h2>
-            <div class="grid md:grid-cols-3 gap-8">
+            <div class="grid md:grid-cols-2 gap-8">
                 <div class="bg-gray-800 p-6 rounded-lg shadow-lg card flex flex-col">
                     <h3 class="text-2xl font-bold mb-4 text-white">Eaglercraft 1.8.8</h3>
                     <p class="text-gray-400 mb-6 flex-grow">The classic and widely used version, perfect for PvP and a stable experience.</p>
@@ -84,6 +99,20 @@
                         Planet Minecraft
                     </a>
                 </div>
+            </div>
+        </section>
+
+        <!-- Discord Section -->
+        <section id="discord" class="mb-16">
+            <h2 class="text-3xl font-semibold border-b-2 border-cyan-500 pb-2 mb-8 text-cyan-300">Join our Discord</h2>
+            <div class="max-w-xl mx-auto bg-gray-800 p-8 rounded-lg shadow-lg text-center">
+                <p class="text-gray-400 mb-6">Join our community on Discord to chat, get support, and stay updated.</p>
+                <!-- 
+                    IMPORTANT: Replace 'https://discord.gg/YOUR_SERVER_INVITE' with your actual Discord server invite link.
+                -->
+                <a href="https://discord.gg/qYKg43GeMP" target="_blank" rel="noopener noreferrer" class="inline-block w-full bg-indigo-500 text-white font-bold py-3 px-6 rounded-lg btn-launch hover:bg-indigo-600">
+                    Join Discord Server
+                </a>
             </div>
         </section>
 
