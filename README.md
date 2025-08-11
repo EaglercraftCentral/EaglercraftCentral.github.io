@@ -23,6 +23,6 @@ Ps: I kinda forgot to give you the urls for Eaglercraft Central, so here they ar
 
 [![Vercel URL](https://vercel.com/button)](https://bobthebuilderb.github.io/eaglercraftcentral)
 - https://eaglercraftcentral.vercel.app
-<botton>
+<botton>(https://bobthebuilderb.github.io/eaglercraftcentral)
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
