@@ -23,4 +23,6 @@ Ps: I kinda forgot to give you the urls for Eaglercraft Central, so here they ar
 
 - https://bobthebuilderb.github.io/eaglercraftcentral
 - https://eaglercraftcentral.vercel.app
+- https://eaglercraftcentral.netlify.app/
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
