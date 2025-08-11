@@ -21,8 +21,6 @@ CurseForge and Planet Minecraft: These links direct users to popular community r
 
 Ps: I kinda forgot to give you the urls for Eaglercraft Central, so here they are - 
 
-[![Vercel URL](https://vercel.com/button)](https://bobthebuilderb.github.io/eaglercraftcentral)
+- https://bobthebuilderb.github.io/eaglercraftcentral
 - https://eaglercraftcentral.vercel.app
-<botton>(https://bobthebuilderb.github.io/eaglercraftcentral)
-
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
