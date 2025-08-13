@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eaglercraft Central</title>
-    <link rel="icon" type="image/png" href="images/favicon.png"> 
+    <link rel="icon" type="image/png" href="https://placehold.co/16x16/06B6D4/FFFFFF?text=EC"> <!-- Placeholder for favicon -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -25,22 +25,25 @@
         .card:hover {
             transform: scale(1.03);
         }
-        /* Style for form inputs */
-        .form-input {
+        /* Styles for navigation buttons */
+        .nav-btn {
+            padding: 0.5rem 1.25rem; /* py-2 px-5 */
+            border-radius: 9999px; /* rounded-full */
             background-color: #374151; /* bg-gray-700 */
-            border: 1px solid #4B5563; /* border-gray-600 */
-            color: #F9FAFB; /* text-gray-50 */
-            border-radius: 0.5rem; /* rounded-lg */
-            padding: 0.75rem 1rem; /* py-3 px-4 */
-            width: 100%;
-            transition: border-color 0.2s;
+            color: #D1D5DB; /* text-gray-300 */
+            font-weight: 600; /* font-semibold */
+            transition: all 0.3s ease;
+            cursor: pointer;
         }
-        .form-input:focus {
-            outline: none;
-            border-color: #2563EB; /* border-blue-600 */
+        .nav-btn:hover, .nav-btn.active {
+            background-color: #06B6D4; /* bg-cyan-500 */
+            color: #FFFFFF; /* text-white */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
         }
     </style>
 
+    <!-- Google Analytics (kept as is, though generally not needed for a simple preview) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-WWJHLNGD9Y"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -54,67 +57,98 @@
     <div class="container mx-auto px-4 py-8">
 
         <header class="text-center mb-12">
-            <img src="images/logo.png" alt="Eaglercraft Central Logo" class="mx-auto h-24 mb-4" onerror="this.style.display='none'">
+            <!-- Placeholder for logo image, as local path 'images/logo.png' won't load in preview -->
+            <img src="https://placehold.co/100x100/34D399/FFFFFF?text=Logo" alt="Eaglercraft Central Logo" class="mx-auto h-24 mb-4 rounded-lg" onerror="this.src='https://placehold.co/100x100/34D399/FFFFFF?text=Logo'">
             <h1 class="text-5xl font-bold text-cyan-400 mb-2">Eaglercraft Central</h1>
             <p class="text-lg text-gray-300">Your one-stop hub for all things Eaglercraft</p>
         </header>
 
-        <section id="clients" class="mb-16">
-            <h2 class="text-3xl font-semibold border-b-2 border-cyan-500 pb-2 mb-8 text-cyan-300">Game Clients</h2>
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="bg-gray-800 p-6 rounded-lg shadow-lg card flex flex-col">
-                    <h3 class="text-2xl font-bold mb-4 text-white">Eaglercraft 1.8.8</h3>
-                    <p class="text-gray-400 mb-6 flex-grow">The classic and widely used version, perfect for PvP and a stable experience.</p>
-                    <a href="https://eaglercraft.com/mc/1.8.8/" target="_blank" rel="noopener noreferrer" class="mt-auto inline-block bg-cyan-500 text-white font-bold py-3 px-6 rounded-lg btn-launch hover:bg-cyan-600 text-center">
-                        Launch 1.8.8 Client
-                    </a>
-                </div>
-                <div class="bg-gray-800 p-6 rounded-lg shadow-lg card flex flex-col">
-                    <h3 class="text-2xl font-bold mb-4 text-white">Eaglercraft 1.12.2</h3>
-                    <p class="text-gray-400 mb-6 flex-grow">A newer version with more modern features, although less common for servers.</p>
-                    <a href="https://eaglercraft.com/mc/1.12.2" target="_blank" rel="noopener noreferrer" class="mt-auto inline-block bg-cyan-500 text-white font-bold py-3 px-6 rounded-lg btn-launch hover:bg-cyan-600 text-center">
-                        Launch 1.12.2 Client
-                    </a>
-                </div>
-            </div>
-        </section>
+        <!-- Navigation Bar -->
+        <nav class="flex justify-center gap-4 md:gap-6 mb-16">
+            <a onclick="showPage('clients')" class="nav-btn active">Clients</a>
+            <a onclick="showPage('resources')" class="nav-btn">Resources</a>
+            <a onclick="showPage('discord')" class="nav-btn">Discord</a>
+        </nav>
 
-        <section id="resources" class="mb-16">
-            <h2 class="text-3xl font-semibold border-b-2 border-cyan-500 pb-2 mb-8 text-cyan-300">Mods & Resource Packs</h2>
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="bg-gray-800 p-6 rounded-lg shadow-lg card flex flex-col">
-                    <h3 class="text-2xl font-bold mb-4 text-white">Mods</h3>
-                    <p class="text-gray-400 mb-6 flex-grow">Enhance your gameplay with community-created mods.</p>
-                    <a href="https://eaglerrinth.github.io" target="_blank" rel="noopener noreferrer" class="inline-block bg-cyan-500 text-white font-bold py-3 px-6 rounded-lg btn-launch hover:bg-cyan-600 text-center">
-                        Browse Mods
-                    </a>
+        <!-- Page Content Wrapper -->
+        <main>
+            <section id="clients" class="page-content mb-16">
+                <h2 class="text-3xl font-semibold border-b-2 border-cyan-500 pb-2 mb-8 text-cyan-300">Game Clients</h2>
+                <!-- Changed grid layout to display 3 columns on medium screens and up, 1 column on small screens -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-lg card flex flex-col">
+                        <h3 class="text-2xl font-bold mb-4 text-white">Eaglercraft 1.8.8</h3>
+                        <p class="text-gray-400 mb-6 flex-grow">The classic and widely used version, perfect for PvP and a stable experience.</p>
+                        <a href="https://eaglercraft.com/mc/1.8.8/" target="_blank" rel="noopener noreferrer" class="mt-auto inline-block bg-cyan-500 text-white font-bold py-3 px-6 rounded-lg btn-launch hover:bg-cyan-600 text-center">
+                            Launch 1.8.8 Client
+                        </a>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-lg card flex flex-col">
+                        <h3 class="text-2xl font-bold mb-4 text-white">Eaglercraft 1.12.2</h3>
+                        <p class="text-gray-400 mb-6 flex-grow">A newer version with more modern features, although less common for servers.</p>
+                        <a href="https://eaglercraft.com/mc/1.12.2" target="_blank" rel="noopener noreferrer" class="mt-auto inline-block bg-cyan-500 text-white font-bold py-3 px-6 rounded-lg btn-launch hover:bg-cyan-600 text-center">
+                            Launch 1.12.2 Client
+                        </a>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-lg card flex flex-col">
+                        <h3 class="text-2xl font-bold mb-4 text-white">PixelClient</h3>
+                        <p class="text-gray-400 mb-6 flex-grow">A popular custom client with unique features and optimizations.</p>
+                        <a href="https://devjakob.webs.vc/launcher/" target="_blank" rel="noopener noreferrer" class="mt-auto inline-block bg-purple-500 text-white font-bold py-3 px-6 rounded-lg btn-launch hover:bg-purple-600 text-center">
+                            Launch PixelClient Launcher
+                        </a>
+                    </div>
+                    <!-- AstraClient Card - Color changed to a much darker purple -->
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-lg card flex flex-col">
+                        <h3 class="text-2xl font-bold mb-4 text-white">AstraClient</h3>
+                        <p class="text-gray-400 mb-6 flex-grow">A performance-focused client with a sleek interface and essential features.</p>
+                        <a href="https://astraclient.com/" target="_blank" rel="noopener noreferrer" class="mt-auto inline-block bg-purple-900 text-white font-bold py-3 px-6 rounded-lg btn-launch hover:bg-purple-950 text-center">
+                            Launch AstraClient Launcher
+                        </a>
+                    </div>
+                    <!-- StarLike Launcher Card - Color changed to yellow, text color to white -->
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-lg card flex flex-col">
+                        <h3 class="text-2xl font-bold mb-4 text-white">StarLike Launcher</h3>
+                        <p class="text-gray-400 mb-6 flex-grow">A modern launcher designed for quick and easy access to Eaglercraft.</p>
+                        <a href="https://starlike.zumbiepig.dev/wasm.html" target="_blank" rel="noopener noreferrer" class="mt-auto inline-block bg-yellow-500 text-white font-bold py-3 px-6 rounded-lg btn-launch hover:bg-yellow-600 text-center">
+                            Launch StarLike Launcher
+                        </a>
+                    </div>
                 </div>
-                <div class="bg-gray-800 p-6 rounded-lg shadow-lg card flex flex-col">
-                    <h3 class="text-2xl font-bold mb-4 text-white">Resource Packs</h3>
-                    <p class="text-gray-400 mb-6 flex-grow">Customize your game's look and feel with resource packs.</p>
-                    <a href="https://modrinth.com/resourcepacks?v=1.8.8&v=1.12.2" target="_blank" rel="noopener noreferrer" class="inline-block bg-cyan-500 text-white font-bold py-3 px-6 rounded-lg btn-launch hover:bg-cyan-600 text-center">
-                        Modrinth
-                    </a>
-                    <a href="https://www.planetminecraft.com/resources/texture_packs/" target="_blank" rel="noopener noreferrer" class="inline-block bg-cyan-500 text-white font-bold py-3 px-6 rounded-lg btn-launch hover:bg-cyan-600 text-center mt-2">
-                        Planet Minecraft
-                    </a>
-                </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Discord Section -->
-        <section id="discord" class="mb-16">
-            <h2 class="text-3xl font-semibold border-b-2 border-cyan-500 pb-2 mb-8 text-cyan-300">Join our Discord</h2>
-            <div class="max-w-xl mx-auto bg-gray-800 p-8 rounded-lg shadow-lg text-center">
-                <p class="text-gray-400 mb-6">Join our community on Discord to chat, get support, and stay updated.</p>
-                <!-- 
-                    IMPORTANT: Replace 'https://discord.gg/YOUR_SERVER_INVITE' with your actual Discord server invite link.
-                -->
-                <a href="https://discord.gg/QSzVeNMzHD" target="_blank" rel="noopener noreferrer" class="inline-block w-full bg-indigo-500 text-white font-bold py-3 px-6 rounded-lg btn-launch hover:bg-indigo-600">
-                    Join Discord Server
-                </a>
-            </div>
-        </section>
+            <section id="resources" class="page-content mb-16 hidden">
+                <h2 class="text-3xl font-semibold border-b-2 border-cyan-500 pb-2 mb-8 text-cyan-300">Mods & Resource Packs</h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-lg card flex flex-col">
+                        <h3 class="text-2xl font-bold mb-4 text-white">Mods</h3>
+                        <p class="text-gray-400 mb-6 flex-grow">Enhance your gameplay with community-created mods.</p>
+                        <a href="https://eaglerrinth.github.io" target="_blank" rel="noopener noreferrer" class="inline-block bg-cyan-500 text-white font-bold py-3 px-6 rounded-lg btn-launch hover:bg-cyan-600 text-center">
+                            Browse Mods
+                        </a>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-lg card flex flex-col">
+                        <h3 class="text-2xl font-bold mb-4 text-white">Resource Packs</h3>
+                        <p class="text-gray-400 mb-6 flex-grow">Customize your game's look and feel with resource packs.</p>
+                        <a href="https://modrinth.com/resourcepacks?v=1.8.8&v=1.12.2" target="_blank" rel="noopener noreferrer" class="inline-block bg-cyan-500 text-white font-bold py-3 px-6 rounded-lg btn-launch hover:bg-cyan-600 text-center">
+                            Modrinth
+                        </a>
+                        <a href="https://www.planetminecraft.com/resources/texture_packs/" target="_blank" rel="noopener noreferrer" class="inline-block bg-cyan-500 text-white font-bold py-3 px-6 rounded-lg btn-launch hover:bg-cyan-600 text-center mt-2">
+                            Planet Minecraft
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <section id="discord" class="page-content mb-16 hidden">
+                <h2 class="text-3xl font-semibold border-b-2 border-cyan-500 pb-2 mb-8 text-cyan-300">Join our Discord</h2>
+                <div class="max-w-xl mx-auto bg-gray-800 p-8 rounded-lg shadow-lg text-center">
+                    <p class="text-gray-400 mb-6">Join our community on Discord to chat, get support, and stay updated.</p>
+                    <a href="https://discord.gg/QSzVeNMzHD" target="_blank" rel="noopener noreferrer" class="inline-block w-full bg-indigo-500 text-white font-bold py-3 px-6 rounded-lg btn-launch hover:bg-indigo-600">
+                        Join Discord Server
+                    </a>
+                </div>
+            </section>
+        </main>
 
         <footer class="text-center mt-16 text-gray-400 text-sm">
             <p>
@@ -124,5 +158,28 @@
         </footer>
 
     </div>
+
+    <script>
+        // Function to switch between pages
+        function showPage(pageId) {
+            // Hide all page sections
+            document.querySelectorAll('.page-content').forEach(section => {
+                section.classList.add('hidden');
+            });
+
+            // Show the selected page section
+            const activePage = document.getElementById(pageId);
+            if (activePage) {
+                activePage.classList.remove('hidden');
+            }
+
+            // Update the active state of navigation buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            // Find the button that corresponds to the pageId and add the active class
+            document.querySelector(`.nav-btn[onclick="showPage('${pageId}')"]`).classList.add('active');
+        }
+    </script>
 </body>
 </html>
