@@ -19,7 +19,7 @@ Resource Packs:
 
 CurseForge and Planet Minecraft: These links direct users to popular community repositories for resource packs. Players can browse and download a wide variety of texture packs to customize the visual aesthetics of their Eaglercraft game.
 
-Ps: I kinda forgot to give you the urls for Eaglercraft Central, so here they are - 
+ps: I kinda forgot to give you the urls for Eaglercraft Central, so here they are - 
 
 - https://bobthebuilderb.github.io/eaglercraftcentral
 - https://eaglercraftcentral.vercel.app
