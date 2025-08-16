@@ -26,3 +26,7 @@ ps: I kinda forgot to give you the urls for Eaglercraft Central, so here they ar
 - https://eaglercraftcentral.netlify.app/
 - https://sites.google.com/view/eaglercraftcentral
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+**|||Join our Discord Server!|||**
+[Join](https://pages.github.com/).
+
