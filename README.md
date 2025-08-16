@@ -29,5 +29,5 @@ ps: I kinda forgot to give you the urls for Eaglercraft Central, so here they ar
 
 **|||Join our Discord Server!|||**
 
-[Join](https://pages.github.com/).
+[Join](https://discord.gg/qYKg43GeMP)
 
