@@ -2,7 +2,7 @@
 
 **|||---Eaglercraft Central: Ultimate Hub---|||**
 
-Eaglercraft is a browser-based, open-source version of Minecraft that allows players to experience older versions of the game without a dedicated client. Eaglercraft Central serves as a hub for enhancing this experience through various user-created content.
+  Eaglercraft is a browser-based, open-source version of Minecraft that allows players to experience older versions of the game without a dedicated client. Eaglercraft Central serves as a hub for enhancing this experience through various user-created content.
 
 **Clients:**
 
