@@ -30,5 +30,5 @@ ps: I kinda forgot to give you the urls for Eaglercraft Central, so here they ar
 **|||---Discord---|||**
   
 
-- [Join our discord server to stay updated, get support and have fun][**🔗 Click To Join**](https://discord.gg/qYKg43GeMP)
+- Join our discord server to stay updated, get support and have fun: [**🔗 Click To Join**](https://discord.gg/qYKg43GeMP)
 
