@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-**|||---Eaglercraft Central: A Website with Clients, Mods, and Resource Packs---|||**
+**|||---Eaglercraft Central: Ultimate Hub---|||**
 
 Eaglercraft is a browser-based, open-source version of Minecraft that allows players to experience older versions of the game without a dedicated client. Eaglercraft Central serves as a hub for enhancing this experience through various user-created content.
 
@@ -27,8 +27,7 @@ ps: I kinda forgot to give you the urls for Eaglercraft Central, so here they ar
 - https://sites.google.com/view/eaglercraftcentral
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-**|||---Discord---|||**
+**|||---Join Our Discord Server To Stay Updated, Get Support And Have Fun---|||**
   
-
-- Join our discord server to stay updated, get support and have fun: [**🔗 Click To Join**](https://discord.gg/qYKg43GeMP)
+  [**🔗 Click To Join**](https://discord.gg/qYKg43GeMP)
 
