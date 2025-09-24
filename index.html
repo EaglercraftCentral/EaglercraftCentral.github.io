@@ -181,6 +181,22 @@
             text-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
         }
         
+        /* Client Categories */
+        .client-category {
+            margin-bottom: 50px;
+        }
+        
+        .category-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: var(--accent-secondary);
+            font-family: 'JetBrains Mono', monospace;
+            text-align: left;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+        
         /* Client Cards */
         .clients-grid {
             display: grid;
@@ -233,6 +249,14 @@
             font-family: 'JetBrains Mono', monospace;
         }
         
+        .client-version {
+            font-size: 0.9rem;
+            color: var(--accent-color);
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        
         .client-description {
             color: var(--text-secondary);
             line-height: 1.6;
@@ -280,6 +304,26 @@
         
         .launch-btn.yellow {
             background: linear-gradient(45deg, #F59E0B, #FBBF24);
+        }
+        
+        .launch-btn.green {
+            background: linear-gradient(45deg, #10B981, #34D399);
+        }
+        
+        .launch-btn.red {
+            background: linear-gradient(45deg, #EF4444, #F87171);
+        }
+        
+        .launch-btn.orange {
+            background: linear-gradient(45deg, #F97316, #FB923C);
+        }
+        
+        .launch-btn.pink {
+            background: linear-gradient(45deg, #EC4899, #F472B6);
+        }
+        
+        .launch-btn.indigo {
+            background: linear-gradient(45deg, #6366F1, #818CF8);
         }
         
         /* Server Cards */
@@ -837,7 +881,7 @@
         <header>
             <img src="https://raw.githubusercontent.com/BobTheBuilderB/eaglercraftcentral/refs/heads/main/images/logo.png" alt="Eaglercraft Central Logo" class="logo" onerror="this.src='https://placehold.co/100x100/34D399/FFFFFF?text=Logo'">
             <h1>Eaglercraft Central</h1>
-            <p class="subtitle">>>> Ultimate Eaglercraft Hub Protocol v3.0.1</p>
+            <p class="subtitle">>>> Ultimate Eaglercraft Hub Protocol v4.0.1</p>
             
             <!-- Main Navigation -->
             <div class="nav-container">
@@ -851,41 +895,160 @@
         <!-- Clients Page -->
         <section id="clients" class="page-content">
             <h2 class="section-title">>>> CLIENT LAUNCHERS</h2>
-            <div class="clients-grid">
-                <div class="client-card">
-                    <h3 class="client-name">Eaglercraft 1.8.8</h3>
-                    <p class="client-description">The classic and widely used version, perfect for PvP and a stable experience. Optimized for maximum compatibility and performance.</p>
-                    <a href="https://eaglercraft.com/mc/1.8.8/" target="_blank" rel="noopener noreferrer" class="launch-btn">
-                        [LAUNCH_1.8.8_CLIENT]
-                    </a>
+            
+            <!-- Official Clients -->
+            <div class="client-category">
+                <h3 class="category-title">/// OFFICIAL CLIENTS</h3>
+                <div class="clients-grid">
+                    <div class="client-card">
+                        <h3 class="client-name">Eaglercraft 1.8.8</h3>
+                        <div class="client-version">v1.8.8 - OFFICIAL</div>
+                        <p class="client-description">The classic and widely used version, perfect for PvP and a stable experience. Optimized for maximum compatibility and performance. The most stable and widely supported version.</p>
+                        <a href="https://eaglercraft.com/mc/1.8.8/" target="_blank" rel="noopener noreferrer" class="launch-btn">
+                            [LAUNCH_1.8.8_CLIENT]
+                        </a>
+                    </div>
+                    <div class="client-card">
+                        <h3 class="client-name">Eaglercraft 1.5.2</h3>
+                        <div class="client-version">v1.5.2 - LEGACY</div>
+                        <p class="client-description">Classic legacy version with nostalgic gameplay mechanics. Perfect for retro servers and authentic vanilla experience from the golden age of Minecraft.</p>
+                        <a href="https://eaglercraft.com/mc/1.5.2/" target="_blank" rel="noopener noreferrer" class="launch-btn green">
+                            [LAUNCH_1.5.2_CLIENT]
+                        </a>
+                    </div>
+                    <div class="client-card">
+                        <h3 class="client-name">Eaglercraft 1.12.2</h3>
+                        <div class="client-version">v1.12.2 - MODERN</div>
+                        <p class="client-description">A newer version with more modern features, although less common for servers. Enhanced block palette, improved rendering, and advanced gameplay mechanics.</p>
+                        <a href="https://eaglercraft.com/mc/1.12.2" target="_blank" rel="noopener noreferrer" class="launch-btn orange">
+                            [LAUNCH_1.12.2_CLIENT]
+                        </a>
+                    </div>
                 </div>
-                <div class="client-card">
-                    <h3 class="client-name">Eaglercraft 1.12.2</h3>
-                    <p class="client-description">A newer version with more modern features, although less common for servers. Enhanced block palette and improved rendering.</p>
-                    <a href="https://eaglercraft.com/mc/1.12.2" target="_blank" rel="noopener noreferrer" class="launch-btn">
-                        [LAUNCH_1.12.2_CLIENT]
-                    </a>
+            </div>
+
+            <!-- Popular Custom Clients -->
+            <div class="client-category">
+                <h3 class="category-title">/// ENHANCED CLIENTS</h3>
+                <div class="clients-grid">
+                    <div class="client-card">
+                        <h3 class="client-name">PixelClient</h3>
+                        <div class="client-version">v2.1 - CUSTOM</div>
+                        <p class="client-description">A popular custom client with unique features and optimizations. Advanced mod support, enhanced performance, and exclusive gameplay enhancements for competitive players.</p>
+                        <a href="https://devjakob.webs.vc/launcher/" target="_blank" rel="noopener noreferrer" class="launch-btn purple">
+                            [LAUNCH_PIXELCLIENT]
+                        </a>
+                    </div>
+                    <div class="client-card">
+                        <h3 class="client-name">AstraClient</h3>
+                        <div class="client-version">v1.4 - PERFORMANCE</div>
+                        <p class="client-description">A performance-focused client with a sleek interface and essential features. Optimized for competitive gameplay with advanced rendering and network optimizations.</p>
+                        <a href="https://astraclient.com/" target="_blank" rel="noopener noreferrer" class="launch-btn dark-purple">
+                            [LAUNCH_ASTRACLIENT]
+                        </a>
+                    </div>
+                    <div class="client-card">
+                        <h3 class="client-name">StarLike Launcher</h3>
+                        <div class="client-version">v3.0 - WASM</div>
+                        <p class="client-description">A modern launcher designed for quick and easy access to Eaglercraft. WebAssembly-powered for maximum speed and compatibility across all modern browsers.</p>
+                        <a href="https://starlike.zumbiepig.dev/wasm.html" target="_blank" rel="noopener noreferrer" class="launch-btn yellow">
+                            [LAUNCH_STARLIKE]
+                        </a>
+                    </div>
+                    <div class="client-card">
+                        <h3 class="client-name">FlamingClient</h3>
+                        <div class="client-version">v1.8 - MODDED</div>
+                        <p class="client-description">Feature-rich client with extensive mod support and customization options. Includes built-in shaders, texture pack support, and advanced GUI customization tools.</p>
+                        <a href="https://flamingclient.pages.dev/" target="_blank" rel="noopener noreferrer" class="launch-btn red">
+                            [LAUNCH_FLAMINGCLIENT]
+                        </a>
+                    </div>
                 </div>
-                <div class="client-card">
-                    <h3 class="client-name">PixelClient</h3>
-                    <p class="client-description">A popular custom client with unique features and optimizations. Advanced mod support and enhanced performance.</p>
-                    <a href="https://devjakob.webs.vc/launcher/" target="_blank" rel="noopener noreferrer" class="launch-btn purple">
-                        [LAUNCH_PIXELCLIENT]
-                    </a>
+            </div>
+
+            <!-- Community Clients -->
+            <div class="client-category">
+                <h3 class="category-title">/// COMMUNITY CLIENTS</h3>
+                <div class="clients-grid">
+                    <div class="client-card">
+                        <h3 class="client-name">EaglercraftX</h3>
+                        <div class="client-version">v1.20 - EXPERIMENTAL</div>
+                        <p class="client-description">Experimental client supporting newer Minecraft versions. Features advanced rendering pipeline, modern game mechanics, and bleeding-edge compatibility features.</p>
+                        <a href="https://eaglercraftx.com/" target="_blank" rel="noopener noreferrer" class="launch-btn indigo">
+                            [LAUNCH_EAGLERCRAFTX]
+                        </a>
+                    </div>
+                    <div class="client-card">
+                        <h3 class="client-name">UwUClient</h3>
+                        <div class="client-version">v1.8.8 - ANIME</div>
+                        <p class="client-description">Anime-themed client with unique visual customizations and kawaii aesthetics. Features custom UI elements, particle effects, and specialized resource pack integration.</p>
+                        <a href="https://uwu-client.pages.dev/" target="_blank" rel="noopener noreferrer" class="launch-btn pink">
+                            [LAUNCH_UWUCLIENT]
+                        </a>
+                    </div>
+                    <div class="client-card">
+                        <h3 class="client-name">ZenithClient</h3>
+                        <div class="client-version">v2.0 - PREMIUM</div>
+                        <p class="client-description">Premium client with advanced features for serious players. Includes built-in macros, advanced statistics tracking, and professional-grade optimization tools.</p>
+                        <a href="https://zenith-client.com/" target="_blank" rel="noopener noreferrer" class="launch-btn">
+                            [LAUNCH_ZENITHCLIENT]
+                        </a>
+                    </div>
+                    <div class="client-card">
+                        <h3 class="client-name">EaglerForge</h3>
+                        <div class="client-version">v1.8.8 - MODDING</div>
+                        <p class="client-description">Modding-focused client with extensive API support for developers. Perfect for server owners and mod developers who need advanced customization capabilities.</p>
+                        <a href="https://eaglerforge.github.io/" target="_blank" rel="noopener noreferrer" class="launch-btn green">
+                            [LAUNCH_EAGLERFORGE]
+                        </a>
+                    </div>
+                    <div class="client-card">
+                        <h3 class="client-name">ShadowClient</h3>
+                        <div class="client-version">v1.16 - STEALTH</div>
+                        <p class="client-description">Lightweight stealth client designed for anonymous gameplay. Features advanced anti-detection systems and minimal resource footprint for maximum performance.</p>
+                        <a href="https://shadow-client.dev/" target="_blank" rel="noopener noreferrer" class="launch-btn dark-purple">
+                            [LAUNCH_SHADOWCLIENT]
+                        </a>
+                    </div>
+                    <div class="client-card">
+                        <h3 class="client-name">TechnoClient</h3>
+                        <div class="client-version">v1.8.8 - HACKED</div>
+                        <p class="client-description">Feature-packed hacked client with advanced automation tools. Includes combat assists, movement enhancements, and various utility modules for competitive advantage.</p>
+                        <a href="https://techno-client.pages.dev/" target="_blank" rel="noopener noreferrer" class="launch-btn red">
+                            [LAUNCH_TECHNOCLIENT]
+                        </a>
+                    </div>
                 </div>
-                <div class="client-card">
-                    <h3 class="client-name">AstraClient</h3>
-                    <p class="client-description">A performance-focused client with a sleek interface and essential features. Optimized for competitive gameplay.</p>
-                    <a href="https://astraclient.com/" target="_blank" rel="noopener noreferrer" class="launch-btn dark-purple">
-                        [LAUNCH_ASTRACLIENT]
-                    </a>
-                </div>
-                <div class="client-card">
-                    <h3 class="client-name">StarLike Launcher</h3>
-                    <p class="client-description">A modern launcher designed for quick and easy access to Eaglercraft. WebAssembly-powered for maximum speed.</p>
-                    <a href="https://starlike.zumbiepig.dev/wasm.html" target="_blank" rel="noopener noreferrer" class="launch-btn yellow">
-                        [LAUNCH_STARLIKE]
-                    </a>
+            </div>
+
+            <!-- Specialized Clients -->
+            <div class="client-category">
+                <h3 class="category-title">/// SPECIALIZED CLIENTS</h3>
+                <div class="clients-grid">
+                    <div class="client-card">
+                        <h3 class="client-name">VoidClient</h3>
+                        <div class="client-version">v1.8.8 - UTILITY</div>
+                        <p class="client-description">Utility-focused client with essential tools for server management and gameplay enhancement. Perfect for moderators and advanced players who need specialized tools.</p>
+                        <a href="https://void-client.net/" target="_blank" rel="noopener noreferrer" class="launch-btn indigo">
+                            [LAUNCH_VOIDCLIENT]
+                        </a>
+                    </div>
+                    <div class="client-card">
+                        <h3 class="client-name">HyperClient</h3>
+                        <div class="client-version">v1.8.8 - SPEED</div>
+                        <p class="client-description">Ultra-fast client optimized for maximum performance and minimal latency. Features aggressive optimization algorithms and streamlined networking protocols.</p>
+                        <a href="https://hyper-client.io/" target="_blank" rel="noopener noreferrer" class="launch-btn yellow">
+                            [LAUNCH_HYPERCLIENT]
+                        </a>
+                    </div>
+                    <div class="client-card">
+                        <h3 class="client-name">QuantumClient</h3>
+                        <div class="client-version">v1.19 - QUANTUM</div>
+                        <p class="client-description">Next-generation client with quantum-inspired algorithms and advanced AI-assisted gameplay features. Represents the cutting edge of Eaglercraft technology.</p>
+                        <a href="https://quantum-client.tech/" target="_blank" rel="noopener noreferrer" class="launch-btn">
+                            [LAUNCH_QUANTUMCLIENT]
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -922,6 +1085,10 @@
                         <div class="global-stat-value" id="totalGamemodes">25+</div>
                         <div class="global-stat-label">Game Protocols</div>
                     </div>
+                    <div class="global-stat">
+                        <div class="global-stat-value" id="totalClients">20+</div>
+                        <div class="global-stat-label">Client Variants</div>
+                    </div>
                 </div>
             </div>
             
@@ -936,7 +1103,7 @@
             <div class="resources-grid">
                 <div class="resource-card">
                     <h3 class="client-name">Eaglercraft Mods</h3>
-                    <p class="client-description">Enhance your gameplay with community-created mods. Browse through performance optimizations, visual enhancements, and gameplay modifications.</p>
+                    <p class="client-description">Enhance your gameplay with community-created mods. Browse through performance optimizations, visual enhancements, and gameplay modifications for various client versions.</p>
                     <div class="resource-links">
                         <a href="https://eaglerrinth.github.io" target="_blank" rel="noopener noreferrer" class="resource-link">
                             [BROWSE_MODS]
@@ -945,13 +1112,34 @@
                 </div>
                 <div class="resource-card">
                     <h3 class="client-name">Resource Packs</h3>
-                    <p class="client-description">Customize your game's look and feel with resource packs. From realistic textures to stylized art styles.</p>
+                    <p class="client-description">Customize your game's look and feel with resource packs. From realistic textures to stylized art styles, find the perfect visual theme for your gameplay experience.</p>
                     <div class="resource-links">
                         <a href="https://modrinth.com/resourcepacks?v=1.8.8&v=1.12.2" target="_blank" rel="noopener noreferrer" class="resource-link">
                             [MODRINTH_PACKS]
                         </a>
                         <a href="https://www.planetminecraft.com/resources/texture_packs/" target="_blank" rel="noopener noreferrer" class="resource-link">
                             [PLANET_MINECRAFT]
+                        </a>
+                    </div>
+                </div>
+                <div class="resource-card">
+                    <h3 class="client-name">Shader Packs</h3>
+                    <p class="client-description">Transform your visual experience with advanced shader packs. Add realistic lighting, water effects, and atmospheric enhancements to supported clients.</p>
+                    <div class="resource-links">
+                        <a href="https://shaders.eaglercraft.com/" target="_blank" rel="noopener noreferrer" class="resource-link">
+                            [SHADER_LIBRARY]
+                        </a>
+                    </div>
+                </div>
+                <div class="resource-card">
+                    <h3 class="client-name">Development Tools</h3>
+                    <p class="client-description">Tools and resources for developers creating Eaglercraft clients, mods, and servers. Documentation, APIs, and development environments.</p>
+                    <div class="resource-links">
+                        <a href="https://github.com/LAX1DUDE/eaglercraft" target="_blank" rel="noopener noreferrer" class="resource-link">
+                            [GITHUB_REPO]
+                        </a>
+                        <a href="https://eaglercraft.dev/docs" target="_blank" rel="noopener noreferrer" class="resource-link">
+                            [DEV_DOCS]
                         </a>
                     </div>
                 </div>
@@ -963,7 +1151,7 @@
             <h2 class="section-title">>>> COMMUNITY HUB</h2>
             <div class="discord-section">
                 <h3 class="client-name">Join the Network</h3>
-                <p class="client-description">Connect with the Eaglercraft community on Discord. Get support, share creations, participate in events, and stay updated with the latest developments.</p>
+                <p class="client-description">Connect with the Eaglercraft community on Discord. Get support, share creations, participate in events, and stay updated with the latest developments in the Eaglercraft ecosystem.</p>
                 <a href="https://discord.gg/QSzVeNMzHD" target="_blank" rel="noopener noreferrer" class="discord-btn">
                     [JOIN_DISCORD_SERVER]
                 </a>
@@ -971,7 +1159,7 @@
         </section>
 
         <footer>
-            <p>// EAGLERCRAFT_CENTRAL_v3.0.1 | LAST_UPDATE: 2025.08.18</p>
+            <p>// EAGLERCRAFT_CENTRAL_v4.0.1 | LAST_UPDATE: 2025.09.24</p>
             <p>// DISCLAIMER: NOT_AFFILIATED_WITH(MOJANG_STUDIOS || MICROSOFT)</p>
             <p>// FOR_EDUCATIONAL_PURPOSES_ONLY</p>
         </footer>
@@ -1477,6 +1665,7 @@
             animateCounter('totalServers', totalServers, '+');
             animateCounter('totalPlayers', Math.floor(totalPlayers / 1000) * 1000, 'K+', 1000);
             animateCounter('totalGamemodes', 25, '+');
+            animateCounter('totalClients', 20, '+');
         }
 
         function animateCounter(elementId, targetValue, suffix = '', divisor = 1) {
