@@ -27,6 +27,20 @@
             --glass-bg: rgba(0, 0, 0, 0.3);
         }
         
+        /* Page Content */
+        .page-content {
+            position: relative;
+            z-index: 1;
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.4s ease;
+        }
+
+        .page-content.hidden {
+            display: none;
+        }
+
+        /* Smooth page transitions */
         body {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #0a0a0f 0%, #1a1a24 100%);
@@ -35,6 +49,7 @@
             color: var(--text-primary);
             overflow-x: hidden;
             scroll-behavior: smooth;
+            transition: all 0.2s ease;
         }
         
         #matrix-canvas {
@@ -161,14 +176,48 @@
             box-shadow: 0 8px 25px rgba(0, 255, 255, 0.3);
         }
         
-        /* Page Content */
-        .page-content {
+        /* Breadcrumb Navigation */
+        .breadcrumb-nav {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px 30px;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
             position: relative;
-            z-index: 1;
+            overflow: hidden;
         }
         
-        .page-content.hidden {
-            display: none;
+        .breadcrumb-nav::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+            transition: left 0.6s;
+        }
+        
+        .breadcrumb-nav:hover::before {
+            left: 100%;
+        }
+        
+        .breadcrumb-prefix,
+        .breadcrumb-suffix {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+        
+        #currentPath {
+            color: var(--text-primary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         
         .section-title {
@@ -885,12 +934,19 @@
             
             <!-- Main Navigation -->
             <div class="nav-container">
-                <a onclick="showPage('clients')" class="nav-btn active">CLIENTS</a>
-                <a onclick="showPage('servers')" class="nav-btn">SERVERS</a>
-                <a onclick="showPage('resources')" class="nav-btn">RESOURCES</a>
-                <a onclick="showPage('discord')" class="nav-btn">DISCORD</a>
+                <a href="#/clients" class="nav-btn" data-page="clients">CLIENTS</a>
+                <a href="#/servers" class="nav-btn" data-page="servers">SERVERS</a>
+                <a href="#/resources" class="nav-btn" data-page="resources">RESOURCES</a>
+                <a href="#/discord" class="nav-btn" data-page="discord">DISCORD</a>
             </div>
         </header>
+        
+        <!-- Hash-based breadcrumb navigation -->
+        <div id="breadcrumb" class="breadcrumb-nav">
+            <span class="breadcrumb-prefix">>>> </span>
+            <span id="currentPath">ROOT/CLIENTS</span>
+            <span class="breadcrumb-suffix"> <<<</span>
+        </div>
         
         <!-- Clients Page -->
         <section id="clients" class="page-content">
@@ -1387,13 +1443,57 @@
             });
         }
 
-        // Enhanced initialization
+        // Enhanced initialization with hash routing
         function init() {
             initMatrixRain();
             setupEventListeners();
+            setupHashRouting();
             updateGlobalStats();
             startTechyEffects();
             addMatrixInteractions();
+            
+            // Handle initial page load
+            handleHashChange();
+        }
+
+        function setupHashRouting() {
+            // Listen for hash changes
+            window.addEventListener('hashchange', handleHashChange);
+            
+            // Handle browser back/forward buttons
+            window.addEventListener('popstate', handleHashChange);
+            
+            // Add click handlers to navigation links
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const pageId = this.getAttribute('data-page');
+                    navigateToPage(pageId);
+                    
+                    // Show loading effect
+                    showNavigationLoading();
+                    
+                    // Add visual feedback
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                });
+            });
+        }
+
+        // Show navigation loading effect
+        function showNavigationLoading() {
+            const breadcrumb = document.getElementById('breadcrumb');
+            if (breadcrumb) {
+                breadcrumb.style.background = 'linear-gradient(45deg, var(--accent-color), var(--accent-secondary))';
+                breadcrumb.style.color = 'var(--primary-bg)';
+                
+                setTimeout(() => {
+                    breadcrumb.style.background = '';
+                    breadcrumb.style.color = '';
+                }, 300);
+            }
         }
 
         function startTechyEffects() {
@@ -1411,8 +1511,14 @@
             }, 3000);
         }
 
-        // Page navigation
+        // Hash-based routing system
         function showPage(pageId) {
+            // Validate page ID
+            const validPages = ['clients', 'servers', 'resources', 'discord'];
+            if (!validPages.includes(pageId)) {
+                pageId = 'clients'; // Default fallback
+            }
+
             // Hide all page sections
             document.querySelectorAll('.page-content').forEach(section => {
                 section.classList.add('hidden');
@@ -1435,10 +1541,72 @@
             });
             
             // Find the button that corresponds to the pageId and add the active class
-            const activeBtn = document.querySelector(`.nav-btn[onclick="showPage('${pageId}')"]`);
+            const activeBtn = document.querySelector(`.nav-btn[data-page="${pageId}"]`);
             if (activeBtn) {
                 activeBtn.classList.add('active');
             }
+
+            // Update breadcrumb navigation
+            updateBreadcrumb(pageId);
+
+            // Update document title based on current page
+            const pageTitles = {
+                'clients': 'Eaglercraft Central - Clients',
+                'servers': 'Eaglercraft Central - Servers', 
+                'resources': 'Eaglercraft Central - Resources',
+                'discord': 'Eaglercraft Central - Community'
+            };
+            document.title = pageTitles[pageId] || 'Eaglercraft Central - Ultimate Hub 2025';
+        }
+
+        // Update breadcrumb navigation
+        function updateBreadcrumb(pageId) {
+            const breadcrumbPaths = {
+                'clients': 'ROOT/CLIENTS',
+                'servers': 'ROOT/SERVERS',
+                'resources': 'ROOT/RESOURCES',
+                'discord': 'ROOT/COMMUNITY'
+            };
+            
+            const currentPathElement = document.getElementById('currentPath');
+            if (currentPathElement) {
+                currentPathElement.textContent = breadcrumbPaths[pageId] || 'ROOT/CLIENTS';
+                
+                // Add glow effect
+                currentPathElement.style.textShadow = '0 0 10px var(--accent-color)';
+                setTimeout(() => {
+                    currentPathElement.style.textShadow = '';
+                }, 500);
+            }
+        }
+
+        // Hash routing functions
+        function getCurrentPageFromHash() {
+            const hash = window.location.hash;
+            if (hash.startsWith('#/')) {
+                return hash.substring(2); // Remove #/ prefix
+            }
+            return 'clients'; // Default page
+        }
+
+        function navigateToPage(pageId) {
+            window.location.hash = '#/' + pageId;
+        }
+
+        function handleHashChange() {
+            const pageId = getCurrentPageFromHash();
+            showPage(pageId);
+            
+            // Console log for debugging
+            console.log(`>>> NAVIGATED TO: ${pageId.toUpperCase()}_PROTOCOL`);
+            
+            // Add techy transition effect
+            document.body.style.transform = 'scale(0.99)';
+            document.body.style.opacity = '0.9';
+            setTimeout(() => {
+                document.body.style.transform = 'scale(1)';
+                document.body.style.opacity = '1';
+            }, 150);
         }
 
         // Enhanced event listeners
