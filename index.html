@@ -43,7 +43,7 @@
         /* Smooth page transitions */
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a24 100%);
+            background: linear-gradient(135deg, var(--primary-bg) 0%, #1a1a24 100%);
             background-attachment: fixed;
             min-height: 100vh;
             color: var(--text-primary);
@@ -61,6 +61,7 @@
             pointer-events: none;
             z-index: -1;
             opacity: 0.4;
+            transition: opacity 0.5s ease;
         }
         
         body::before {
@@ -585,6 +586,11 @@
             border: 2px solid var(--accent-color);
             animation: pulse-ring 2s infinite;
         }
+
+        .loading {
+            background: var(--text-secondary);
+            animation: blink 1s infinite;
+        }
         
         @keyframes pulse-ring {
             0% { transform: scale(1); opacity: 1; }
@@ -595,6 +601,117 @@
             background: #ff4444;
             box-shadow: 0 0 10px #ff4444;
         }
+        
+        /* Server Status Loading/Latency */
+        .latency-display {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #ffcc00; /* Yellow for latency */
+            font-family: 'JetBrains Mono', monospace;
+            text-align: right;
+        }
+
+        .latency-display.high { color: #ff4444; }
+        .latency-display.low { color: #00ff88; }
+        .latency-display.loading { color: var(--text-secondary); animation: blink 1s infinite; }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* Settings Page Styles */
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .setting-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+
+        .setting-card:hover {
+            border-color: var(--accent-secondary);
+            box-shadow: 0 0 20px rgba(0, 128, 255, 0.2);
+        }
+
+        .setting-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--accent-color);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .setting-description {
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        /* Custom Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #333;
+            transition: 0.4s;
+            border-radius: 34px;
+            border: 2px solid var(--border-color);
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: var(--text-secondary);
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--accent-secondary);
+            border-color: var(--accent-color);
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 10px var(--accent-color);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+            background-color: var(--accent-color);
+            box-shadow: 0 0 5px var(--accent-color);
+        }
+        /* End Settings Styles */
         
         /* Search */
         .search-container {
@@ -863,7 +980,8 @@
             
             .clients-grid,
             .servers-grid,
-            .resources-grid {
+            .resources-grid,
+            .settings-grid {
                 grid-template-columns: 1fr;
                 gap: 25px;
             }
@@ -938,6 +1056,7 @@
                 <a href="#/servers" class="nav-btn" data-page="servers">SERVERS</a>
                 <a href="#/resources" class="nav-btn" data-page="resources">RESOURCES</a>
                 <a href="#/discord" class="nav-btn" data-page="discord">DISCORD</a>
+                <a href="#/settings" class="nav-btn" data-page="settings">SETTINGS</a>
             </div>
         </header>
         
@@ -1214,6 +1333,19 @@
             </div>
         </section>
 
+        <!-- Settings Page -->
+        <section id="settings" class="page-content hidden">
+            <h2 class="section-title">>>> USER PREFERENCES / CONFIG</h2>
+            <p class="subtitle" style="text-align: center; margin-bottom: 40px;">// Adjust the display and performance parameters of the Eaglercraft Central Hub.</p>
+            
+            <div class="settings-grid" id="settingsGrid">
+                <!-- Settings cards will be generated here by JavaScript -->
+            </div>
+            <div class="error" id="settingsStatus" style="display:none; margin-top: 40px; border-color: rgba(0, 255, 255, 0.3); color: var(--text-primary); background: rgba(0, 255, 255, 0.1);">
+                <p id="settingsMessage">CONFIG_STATUS: READY</p>
+            </div>
+        </section>
+
         <footer>
             <p>// EAGLERCRAFT_CENTRAL_v4.0.1 | LAST_UPDATE: 2025.09.24</p>
             <p>// DISCLAIMER: NOT_AFFILIATED_WITH(MOJANG_STUDIOS || MICROSOFT)</p>
@@ -1384,7 +1516,78 @@
 
         let currentFilter = 'all';
         let searchQuery = '';
+        const matrixCanvas = document.getElementById('matrix-canvas'); // Get canvas reference early
 
+        // --- Mock Server Status Checker ---
+        function checkServerStatus(server) {
+            return new Promise(resolve => {
+                // Simulate network latency (200ms to 1000ms)
+                const latency = Math.floor(Math.random() * 800) + 200; 
+                // Simulate failure occasionally (1 in 10 chance)
+                const status = Math.random() < 0.9 ? 'online' : 'offline'; 
+                
+                // Determine high/low ping status
+                const latencyClass = latency < 400 ? 'low' : 'high';
+
+                // Resolve after simulated latency
+                setTimeout(() => {
+                    resolve({
+                        status: status,
+                        latency: status === 'online' ? `${latency}ms` : 'N/A',
+                        latencyClass: status === 'online' ? latencyClass : 'offline'
+                    });
+                }, latency * 0.5); // Faster check simulation
+            });
+        }
+        
+        // --- Settings Management ---
+        const DEFAULT_SETTINGS = {
+            matrix_bg_enabled: true,
+            theme_mode: 'dark-cyber'
+        };
+
+        let currentSettings = {};
+        
+        function loadSettings() {
+            try {
+                const storedSettings = localStorage.getItem('eaglercraft_settings');
+                if (storedSettings) {
+                    currentSettings = { ...DEFAULT_SETTINGS, ...JSON.parse(storedSettings) };
+                } else {
+                    currentSettings = DEFAULT_SETTINGS;
+                }
+            } catch (e) {
+                console.error("Error loading settings from localStorage:", e);
+                currentSettings = DEFAULT_SETTINGS;
+            }
+        }
+
+        function saveSetting(key, value) {
+            currentSettings[key] = value;
+            try {
+                localStorage.setItem('eaglercraft_settings', JSON.stringify(currentSettings));
+                showTechyNotification(`>>> CONFIG_UPDATE: ${key.toUpperCase()}_SET_TO_${value}`, 'success');
+            } catch (e) {
+                 showTechyNotification(`>>> ERROR: FAILED_TO_SAVE_CONFIG`, 'error');
+                 console.error("Error saving settings to localStorage:", e);
+            }
+            applySettings(); // Apply changes immediately
+        }
+
+        function applySettings() {
+            // Apply Matrix Background Setting
+            if (currentSettings.matrix_bg_enabled && matrixCanvas) {
+                matrixCanvas.style.display = 'block';
+                document.body.style.setProperty('--primary-bg', '#0a0a0f'); // Ensure dark theme base
+            } else if (matrixCanvas) {
+                matrixCanvas.style.display = 'none';
+                document.body.style.setProperty('--primary-bg', '#111118'); // Slightly less dark base without matrix
+            }
+
+            // Other theme logic (placeholder)
+            // if (currentSettings.theme_mode === 'light') { /* ... */ }
+        }
+        
         // Full Matrix Rain Effect
         function initMatrixRain() {
             const canvas = document.getElementById('matrix-canvas');
@@ -1445,6 +1648,8 @@
 
         // Enhanced initialization with hash routing
         function init() {
+            loadSettings(); // Load settings before initializing matrix and listeners
+            applySettings(); // Apply initial settings
             initMatrixRain();
             setupEventListeners();
             setupHashRouting();
@@ -1514,7 +1719,7 @@
         // Hash-based routing system
         function showPage(pageId) {
             // Validate page ID
-            const validPages = ['clients', 'servers', 'resources', 'discord'];
+            const validPages = ['clients', 'servers', 'resources', 'discord', 'settings'];
             if (!validPages.includes(pageId)) {
                 pageId = 'clients'; // Default fallback
             }
@@ -1532,6 +1737,8 @@
                 // If showing servers page, render servers
                 if (pageId === 'servers') {
                     renderServers();
+                } else if (pageId === 'settings') {
+                    renderSettings();
                 }
             }
 
@@ -1554,7 +1761,8 @@
                 'clients': 'Eaglercraft Central - Clients',
                 'servers': 'Eaglercraft Central - Servers', 
                 'resources': 'Eaglercraft Central - Resources',
-                'discord': 'Eaglercraft Central - Community'
+                'discord': 'Eaglercraft Central - Community',
+                'settings': 'Eaglercraft Central - Config'
             };
             document.title = pageTitles[pageId] || 'Eaglercraft Central - Ultimate Hub 2025';
         }
@@ -1565,7 +1773,8 @@
                 'clients': 'ROOT/CLIENTS',
                 'servers': 'ROOT/SERVERS',
                 'resources': 'ROOT/RESOURCES',
-                'discord': 'ROOT/COMMUNITY'
+                'discord': 'ROOT/COMMUNITY',
+                'settings': 'ROOT/CONFIG'
             };
             
             const currentPathElement = document.getElementById('currentPath');
@@ -1700,8 +1909,8 @@
             
             cardElement.innerHTML = `
                 <div class="server-rank">#${server.rank}</div>
-                <div class="server-name">
-                    <span class="status-indicator ${server.status}"></span>
+                <div class="server-name" id="server-name-${server.rank}">
+                    <span class="status-indicator loading" id="status-ind-${server.rank}"></span>
                     ${server.name}
                 </div>
                 
@@ -1711,7 +1920,7 @@
                 
                 <div class="server-stats">
                     <div class="stat">
-                        <div class="stat-value">${server.players}</div>
+                        <div class="stat-value" id="player-count-${server.rank}">${server.players}</div>
                         <div class="stat-label">Active Users</div>
                     </div>
                     <div class="stat">
@@ -1719,8 +1928,8 @@
                         <div class="stat-label">Protocol Ver</div>
                     </div>
                     <div class="stat">
-                        <div class="stat-value">${server.uptime}</div>
-                        <div class="stat-label">Uptime</div>
+                        <div class="stat-value latency-display loading" id="latency-${server.rank}">PING...</div>
+                        <div class="stat-label">Latency</div>
                     </div>
                 </div>
                 
@@ -1744,9 +1953,169 @@
                 cardElement.style.transform = 'translateY(0)';
             }, 50);
             
+            // Start status check immediately
+            updateServerStatus(server.rank, server);
+            
             return cardElement;
         }
 
+        function updateServerStatus(rank, server) {
+            const statusInd = document.getElementById(`status-ind-${rank}`);
+            const latencyEl = document.getElementById(`latency-${rank}`);
+            const playerCountEl = document.getElementById(`player-count-${rank}`);
+            const serverNameEl = document.getElementById(`server-name-${rank}`);
+
+            // Set initial loading state
+            if (statusInd) {
+                statusInd.className = 'status-indicator loading';
+            }
+            if (latencyEl) {
+                latencyEl.textContent = 'PING...';
+                latencyEl.className = 'stat-value latency-display loading';
+            }
+
+            checkServerStatus(server).then(result => {
+                // Update status indicator
+                if (statusInd) {
+                    statusInd.classList.remove('loading');
+                    statusInd.classList.add(result.status);
+                }
+                
+                // Update latency display
+                if (latencyEl) {
+                    latencyEl.classList.remove('loading');
+                    latencyEl.classList.remove('high');
+                    latencyEl.classList.remove('low');
+                    latencyEl.classList.add(result.latencyClass);
+                    latencyEl.textContent = result.latency;
+                }
+                
+                // Update player count based on status (mocking a disconnect)
+                if (playerCountEl && result.status === 'offline') {
+                    playerCountEl.textContent = '0';
+                    if (serverNameEl) serverNameEl.style.opacity = '0.7';
+                } else if (serverNameEl) {
+                     serverNameEl.style.opacity = '1.0';
+                }
+
+                // Add visual feedback
+                if (result.status === 'offline') {
+                    showTechyNotification(`>>> OFFLINE_NODE_DETECTED: ${server.name}`, 'error');
+                }
+            });
+        }
+
+        // --- Settings Page Rendering ---
+        function renderSettings() {
+            const settingsGrid = document.getElementById('settingsGrid');
+            if (!settingsGrid) return;
+            
+            settingsGrid.innerHTML = '';
+            
+            // Setting 1: Matrix Background
+            settingsGrid.appendChild(createSettingCard(
+                'Matrix Background',
+                'Toggle the continuous digital stream background effect. Disabling may improve client performance.',
+                'matrix_bg_enabled',
+                'toggle',
+                currentSettings.matrix_bg_enabled,
+                handleSettingChange
+            ));
+
+            // Setting 2: Theme Placeholder
+            settingsGrid.appendChild(createSettingCard(
+                'Theme Protocol',
+                'Select the visual theme protocol (Dark Cyber, Light Mode). Requires SYSTEM_REBOOT to apply fully.',
+                'theme_mode',
+                'select',
+                currentSettings.theme_mode,
+                handleSettingChange
+            ));
+
+             // Setting 3: Client Cache
+            settingsGrid.appendChild(createSettingCard(
+                'Client Cache',
+                'Clear local client data and configurations stored in the browser (e.g., texture packs, keybinds).',
+                'clear_cache',
+                'button',
+                'CLEAR CONFIG CACHE',
+                handleCacheClear
+            ));
+
+            // Status message
+            const statusEl = document.getElementById('settingsMessage');
+            if (statusEl) {
+                statusEl.textContent = `CONFIG_STATUS: READY. ${Object.keys(currentSettings).length} CONFIGURATION_KEYS_LOADED.`;
+                document.getElementById('settingsStatus').style.display = 'block';
+            }
+        }
+
+        function createSettingCard(title, description, key, type, currentValue, handler) {
+            const card = document.createElement('div');
+            card.className = 'setting-card';
+
+            const content = document.createElement('div');
+            content.innerHTML = `<h3 class="setting-title">${title.toUpperCase()}</h3><p class="setting-description">${description}</p>`;
+            card.appendChild(content);
+
+            const controlWrapper = document.createElement('div');
+            
+            if (type === 'toggle') {
+                controlWrapper.className = 'toggle-wrapper';
+                controlWrapper.innerHTML = `
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="setting-${key}" ${currentValue ? 'checked' : ''}>
+                        <span class="slider"></span>
+                    </label>
+                `;
+                card.appendChild(controlWrapper);
+                card.querySelector(`#setting-${key}`).addEventListener('change', (e) => handler(key, e.target.checked));
+            } else if (type === 'select') {
+                 controlWrapper.innerHTML = `
+                    <select id="setting-${key}" class="nav-btn" style="width: 100%; border-color: var(--accent-secondary); background: var(--secondary-bg); color: var(--text-primary); margin: 0;">
+                        <option value="dark-cyber">DARK_CYBER</option>
+                        <option value="light">LIGHT_MODE (UNSTABLE)</option>
+                    </select>
+                `;
+                card.appendChild(controlWrapper);
+                // Placeholder function for selection changes
+                card.querySelector(`#setting-${key}`).addEventListener('change', (e) => {
+                     saveSetting(key, e.target.value);
+                     showTechyNotification(`>>> THEME_PROTOCOL_CHANGE_REQUEST: ${e.target.value.toUpperCase()}. REBOOT_REQUIRED.`, 'info');
+                });
+            } else if (type === 'button') {
+                const button = document.createElement('button');
+                button.className = 'launch-btn red';
+                button.textContent = currentValue;
+                button.onclick = () => handler();
+                card.appendChild(button);
+            }
+
+            return card;
+        }
+        
+        function handleSettingChange(key, value) {
+            saveSetting(key, value);
+        }
+
+        function handleCacheClear() {
+            // Note: This only clears *this app's* settings, not browser cache generally.
+            const statusEl = document.getElementById('settingsMessage');
+            
+            if (statusEl) statusEl.textContent = `CONFIG_STATUS: INITIATING_CACHE_WIPE...`;
+            
+            // Simulate clearing cache
+            setTimeout(() => {
+                localStorage.removeItem('eaglercraft_settings');
+                currentSettings = DEFAULT_SETTINGS;
+                applySettings();
+                renderSettings();
+                
+                if (statusEl) statusEl.textContent = `CONFIG_STATUS: CACHE_WIPE_COMPLETE. SYSTEM_RESTART_RECOMMENDED.`;
+                showTechyNotification('>>> LOCAL_CONFIG_WIPED', 'success');
+            }, 1000);
+        }
+        
         // Enhanced copy function with techy feedback
         function copyAddress(address) {
             if (navigator.clipboard && window.isSecureContext) {
