@@ -1516,6 +1516,7 @@
 
         let currentFilter = 'all';
         let searchQuery = '';
+        let matrixInterval;
         const matrixCanvas = document.getElementById('matrix-canvas'); // Get canvas reference early
 
         // --- Mock Server Status Checker ---
@@ -1578,9 +1579,18 @@
             // Apply Matrix Background Setting
             if (currentSettings.matrix_bg_enabled && matrixCanvas) {
                 matrixCanvas.style.display = 'block';
+                // Restart matrix animation if needed
+                if (!matrixInterval) {
+                    initMatrixRain();
+                }
                 document.body.style.setProperty('--primary-bg', '#0a0a0f'); // Ensure dark theme base
             } else if (matrixCanvas) {
                 matrixCanvas.style.display = 'none';
+                // Clear matrix interval to save resources
+                if (matrixInterval) {
+                    clearInterval(matrixInterval);
+                    matrixInterval = null;
+                }
                 document.body.style.setProperty('--primary-bg', '#111118'); // Slightly less dark base without matrix
             }
 
@@ -1588,18 +1598,25 @@
             // if (currentSettings.theme_mode === 'light') { /* ... */ }
         }
         
-        // Full Matrix Rain Effect
+        // Full Matrix Rain Effect - Consistent across all pages
         function initMatrixRain() {
             const canvas = document.getElementById('matrix-canvas');
+            if (!canvas) return;
+            
             const ctx = canvas.getContext('2d');
             
+            // Set consistent canvas size
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
             
+            // Consistent character set
             const matrixChars = 'ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ$+-*/=%"&_(){}?[]|\\<>';
-            const fontSize = 14;
+            
+            // Consistent font size and speed across all pages
+            const fontSize = 14; // Fixed size
             const columns = Math.floor(canvas.width / fontSize);
             
+            // Consistent drop speed
             const drops = [];
             for (let i = 0; i < columns; i++) {
                 drops[i] = Math.random() * -100;
@@ -1630,14 +1647,21 @@
                         ctx.fillText(char, i * fontSize, drops[i] * fontSize);
                     }
                     
+                    // Consistent drop speed
                     if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
                         drops[i] = 0;
                     }
-                    drops[i]++;
+                    drops[i] += 1; // Fixed increment for consistent speed
                 }
             }
             
-            setInterval(draw, 33);
+            // Clear any existing interval
+            if (matrixInterval) {
+                clearInterval(matrixInterval);
+            }
+            
+            // Consistent animation speed (30 FPS)
+            matrixInterval = setInterval(draw, 33);
             
             // Handle window resize
             window.addEventListener('resize', () => {
@@ -1650,7 +1674,6 @@
         function init() {
             loadSettings(); // Load settings before initializing matrix and listeners
             applySettings(); // Apply initial settings
-            initMatrixRain();
             setupEventListeners();
             setupHashRouting();
             updateGlobalStats();
@@ -2073,8 +2096,8 @@
             } else if (type === 'select') {
                  controlWrapper.innerHTML = `
                     <select id="setting-${key}" class="nav-btn" style="width: 100%; border-color: var(--accent-secondary); background: var(--secondary-bg); color: var(--text-primary); margin: 0;">
-                        <option value="dark-cyber">DARK_CYBER</option>
-                        <option value="light">LIGHT_MODE (UNSTABLE)</option>
+                        <option value="dark-cyber" ${currentSettings.theme_mode === 'dark-cyber' ? 'selected' : ''}>DARK_CYBER</option>
+                        <option value="light" ${currentSettings.theme_mode === 'light' ? 'selected' : ''}>LIGHT_MODE (UNSTABLE)</option>
                     </select>
                 `;
                 card.appendChild(controlWrapper);
