@@ -1598,25 +1598,20 @@
             // if (currentSettings.theme_mode === 'light') { /* ... */ }
         }
         
-        // Full Matrix Rain Effect - Consistent across all pages
+        // Full Matrix Rain Effect
         function initMatrixRain() {
             const canvas = document.getElementById('matrix-canvas');
             if (!canvas) return;
             
             const ctx = canvas.getContext('2d');
             
-            // Set consistent canvas size
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
             
-            // Consistent character set
             const matrixChars = 'ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ$+-*/=%"&_(){}?[]|\\<>';
-            
-            // Consistent font size and speed across all pages
-            const fontSize = 14; // Fixed size
+            const fontSize = 10;
             const columns = Math.floor(canvas.width / fontSize);
             
-            // Consistent drop speed
             const drops = [];
             for (let i = 0; i < columns; i++) {
                 drops[i] = Math.random() * -100;
@@ -1647,11 +1642,10 @@
                         ctx.fillText(char, i * fontSize, drops[i] * fontSize);
                     }
                     
-                    // Consistent drop speed
                     if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
                         drops[i] = 0;
                     }
-                    drops[i] += 1; // Fixed increment for consistent speed
+                    drops[i]++;
                 }
             }
             
@@ -1660,8 +1654,7 @@
                 clearInterval(matrixInterval);
             }
             
-            // Consistent animation speed (30 FPS)
-            matrixInterval = setInterval(draw, 33);
+            matrixInterval = setInterval(draw, 50);
             
             // Handle window resize
             window.addEventListener('resize', () => {
