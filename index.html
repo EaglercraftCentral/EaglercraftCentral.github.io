@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eaglercraft Central - Ultimate Hub 2025</title>
     <meta name="description" content="Your ultimate hub for Eaglercraft clients, servers, mods, and community. Find the best servers and launch clients in one place!">
-    <meta name="keywords" content="Eaglercraft, Eaglercraft Central, Minecraft, Minecraft clients, Minecraft servers, Eaglercraft clients, eaglercraft server list, eaglerserverlist, Eaglercraft mods, launcher, gaming community, eaglercraft multiplayer, eaglercraft resource packs, web Minecraft, vanilla Minecraft">
+    <meta name="keywords" content="Eaglercraft, Eaglercraft Central, Minecraft, Minecraft clients, Minecraft servers, Eaglercraft clients, eaglerserverlist, Eaglercraft mods, launcher, gaming community, eaglercraft multiplayer, eaglercraft resource packs, web Minecraft, vanilla Minecraft">
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/BobTheBuilderB/eaglercraftcentral/refs/heads/main/images/logo.png">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap');
@@ -26,6 +26,114 @@
             --border-color: rgba(0, 255, 255, 0.2);
             --card-bg: rgba(26, 26, 36, 0.8);
             --glass-bg: rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Iframe Modal Styles */
+        .iframe-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .iframe-modal.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .iframe-container {
+            position: relative;
+            width: 95%;
+            height: 90%;
+            max-width: 1600px;
+            background: var(--secondary-bg);
+            border-radius: 16px;
+            border: 2px solid var(--accent-color);
+            box-shadow: 0 0 50px rgba(0, 255, 255, 0.3);
+            overflow: hidden;
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .iframe-header {
+            background: linear-gradient(45deg, var(--accent-color), var(--accent-secondary));
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--primary-bg);
+        }
+
+        .iframe-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+        }
+
+        .iframe-url {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            margin-left: 15px;
+        }
+
+        .iframe-close {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: var(--primary-bg);
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .iframe-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        .iframe-content {
+            width: 100%;
+            height: calc(100% - 60px);
+            border: none;
+            background: white;
+        }
+
+        .iframe-loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
         
         /* Page Content */
@@ -607,7 +715,7 @@
         .latency-display {
             font-size: 1.1rem;
             font-weight: 500;
-            color: #ffcc00; /* Yellow for latency */
+            color: #ffcc00;
             font-family: 'JetBrains Mono', monospace;
             text-align: right;
         }
@@ -712,7 +820,6 @@
             background-color: var(--accent-color);
             box-shadow: 0 0 5px var(--accent-color);
         }
-        /* End Settings Styles */
         
         /* Search */
         .search-container {
@@ -899,6 +1006,7 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
         
         .resource-link:hover {
@@ -954,14 +1062,6 @@
             font-family: 'JetBrains Mono', monospace;
         }
         
-        .loading {
-            text-align: center;
-            color: var(--text-primary);
-            font-size: 1.2rem;
-            margin: 50px 0;
-            font-family: 'JetBrains Mono', monospace;
-        }
-        
         .error {
             background: rgba(255, 68, 68, 0.1);
             border: 1px solid rgba(255, 68, 68, 0.3);
@@ -1002,6 +1102,20 @@
             .filter-tab {
                 padding: 10px 16px;
                 font-size: 0.8rem;
+            }
+
+            .iframe-container {
+                width: 98%;
+                height: 95%;
+            }
+
+            .iframe-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .iframe-url {
+                margin-left: 0;
             }
         }
         
@@ -1044,6 +1158,21 @@
     </script>
 </head>
 <body>
+    <!-- Iframe Modal -->
+    <div id="iframeModal" class="iframe-modal">
+        <div class="iframe-container">
+            <div class="iframe-header">
+                <div>
+                    <span class="iframe-title" id="iframeTitle">LOADING...</span>
+                    <span class="iframe-url" id="iframeUrl"></span>
+                </div>
+                <button class="iframe-close" onclick="closeIframe()">×</button>
+            </div>
+            <div class="iframe-loading" id="iframeLoading">>>> ESTABLISHING CONNECTION...</div>
+            <iframe id="iframeContent" class="iframe-content" style="display:none;"></iframe>
+        </div>
+    </div>
+
     <canvas id="matrix-canvas"></canvas>
     <div class="container">
         <header>
@@ -1080,7 +1209,7 @@
                         <h3 class="client-name">Eaglercraft 1.8.8</h3>
                         <div class="client-version">v1.8.8 - OFFICIAL</div>
                         <p class="client-description">The classic and widely used version, perfect for PvP and a stable experience. Optimized for maximum compatibility and performance. The most stable and widely supported version.</p>
-                        <a href="https://eaglercraft.com/mc/1.8.8/" target="_blank" rel="noopener noreferrer" class="launch-btn">
+                        <a href="javascript:void(0)" onclick="openIframe('https://eaglercraft.com/mc/1.8.8/', 'Eaglercraft 1.8.8')" class="launch-btn">
                             [LAUNCH_1.8.8_CLIENT]
                         </a>
                     </div>
@@ -1088,7 +1217,7 @@
                         <h3 class="client-name">Eaglercraft 1.5.2</h3>
                         <div class="client-version">v1.5.2 - LEGACY</div>
                         <p class="client-description">Classic legacy version with nostalgic gameplay mechanics. Perfect for retro servers and authentic vanilla experience from the golden age of Minecraft.</p>
-                        <a href="https://eaglercraft.com/mc/1.5.2/" target="_blank" rel="noopener noreferrer" class="launch-btn green">
+                        <a href="javascript:void(0)" onclick="openIframe('https://eaglercraft.com/mc/1.5.2/', 'Eaglercraft 1.5.2')" class="launch-btn green">
                             [LAUNCH_1.5.2_CLIENT]
                         </a>
                     </div>
@@ -1096,7 +1225,7 @@
                         <h3 class="client-name">Eaglercraft 1.12.2</h3>
                         <div class="client-version">v1.12.2 - MODERN</div>
                         <p class="client-description">A newer version with more modern features, although less common for servers. Enhanced block palette, improved rendering, and advanced gameplay mechanics.</p>
-                        <a href="https://eaglercraft.com/mc/1.12.2" target="_blank" rel="noopener noreferrer" class="launch-btn orange">
+                        <a href="javascript:void(0)" onclick="openIframe('https://eaglercraft.com/mc/1.12.2', 'Eaglercraft 1.12.2')" class="launch-btn orange">
                             [LAUNCH_1.12.2_CLIENT]
                         </a>
                     </div>
@@ -1111,7 +1240,7 @@
                         <h3 class="client-name">PixelClient</h3>
                         <div class="client-version">v2.1 - CUSTOM</div>
                         <p class="client-description">A popular custom client with unique features and optimizations. Advanced mod support, enhanced performance, and exclusive gameplay enhancements for competitive players.</p>
-                        <a href="https://pixelclient.xyz/" target="_blank" rel="noopener noreferrer" class="launch-btn purple">
+                        <a href="javascript:void(0)" onclick="openIframe('https://pixelclient.xyz/', 'PixelClient')" class="launch-btn purple">
                             [LAUNCH_PIXELCLIENT]
                         </a>
                     </div>
@@ -1119,7 +1248,7 @@
                         <h3 class="client-name">AstraClient</h3>
                         <div class="client-version">v1.4 - PERFORMANCE</div>
                         <p class="client-description">A performance-focused client with a sleek interface and essential features. Optimized for competitive gameplay with advanced rendering and network optimizations.</p>
-                        <a href="https://astraclient.com/" target="_blank" rel="noopener noreferrer" class="launch-btn dark-purple">
+                        <a href="javascript:void(0)" onclick="openIframe('https://astraclient.com/', 'AstraClient')" class="launch-btn dark-purple">
                             [LAUNCH_ASTRACLIENT]
                         </a>
                     </div>
@@ -1127,7 +1256,7 @@
                         <h3 class="client-name">StarLike Launcher</h3>
                         <div class="client-version">v3.0 - WASM</div>
                         <p class="client-description">A modern launcher designed for quick and easy access to Eaglercraft. WebAssembly-powered for maximum speed and compatibility across all modern browsers.</p>
-                        <a href="https://starlike.zumbiepig.dev/wasm.html" target="_blank" rel="noopener noreferrer" class="launch-btn yellow">
+                        <a href="javascript:void(0)" onclick="openIframe('https://starlike.zumbiepig.dev/wasm.html', 'StarLike Launcher')" class="launch-btn yellow">
                             [LAUNCH_STARLIKE]
                         </a>
                     </div>
@@ -1135,7 +1264,7 @@
                         <h3 class="client-name">FlamingClient</h3>
                         <div class="client-version">v1.8 - MODDED</div>
                         <p class="client-description">Feature-rich client with extensive mod support and customization options. Includes built-in shaders, texture pack support, and advanced GUI customization tools.</p>
-                        <a href="https://flamingclient.pages.dev/" target="_blank" rel="noopener noreferrer" class="launch-btn red">
+                        <a href="javascript:void(0)" onclick="openIframe('https://flamingclient.pages.dev/', 'FlamingClient')" class="launch-btn red">
                             [LAUNCH_FLAMINGCLIENT]
                         </a>
                     </div>
@@ -1150,7 +1279,7 @@
                         <h3 class="client-name">EaglercraftX</h3>
                         <div class="client-version">v1.20 - EXPERIMENTAL</div>
                         <p class="client-description">Experimental client supporting newer Minecraft versions. Features advanced rendering pipeline, modern game mechanics, and bleeding-edge compatibility features.</p>
-                        <a href="https://eaglercraftx.com/" target="_blank" rel="noopener noreferrer" class="launch-btn indigo">
+                        <a href="javascript:void(0)" onclick="openIframe('https://eaglercraftx.com/', 'EaglercraftX')" class="launch-btn indigo">
                             [LAUNCH_EAGLERCRAFTX]
                         </a>
                     </div>
@@ -1158,7 +1287,7 @@
                         <h3 class="client-name">UwUClient</h3>
                         <div class="client-version">v1.8.8 - ANIME</div>
                         <p class="client-description">Anime-themed client with unique visual customizations and kawaii aesthetics. Features custom UI elements, particle effects, and specialized resource pack integration.</p>
-                        <a href="https://uwu-client.pages.dev/" target="_blank" rel="noopener noreferrer" class="launch-btn pink">
+                        <a href="javascript:void(0)" onclick="openIframe('https://uwu-client.pages.dev/', 'UwUClient')" class="launch-btn pink">
                             [LAUNCH_UWUCLIENT]
                         </a>
                     </div>
@@ -1166,7 +1295,7 @@
                         <h3 class="client-name">ZenithClient</h3>
                         <div class="client-version">v2.0 - PREMIUM</div>
                         <p class="client-description">Premium client with advanced features for serious players. Includes built-in macros, advanced statistics tracking, and professional-grade optimization tools.</p>
-                        <a href="https://zenith-client.com/" target="_blank" rel="noopener noreferrer" class="launch-btn">
+                        <a href="javascript:void(0)" onclick="openIframe('https://zenith-client.com/', 'ZenithClient')" class="launch-btn">
                             [LAUNCH_ZENITHCLIENT]
                         </a>
                     </div>
@@ -1174,7 +1303,7 @@
                         <h3 class="client-name">EaglerForge</h3>
                         <div class="client-version">v1.8.8 - MODDING</div>
                         <p class="client-description">Modding-focused client with extensive API support for developers. Perfect for server owners and mod developers who need advanced customization capabilities.</p>
-                        <a href="https://eaglerforge.github.io/" target="_blank" rel="noopener noreferrer" class="launch-btn green">
+                        <a href="javascript:void(0)" onclick="openIframe('https://eaglerforge.github.io/', 'EaglerForge')" class="launch-btn green">
                             [LAUNCH_EAGLERFORGE]
                         </a>
                     </div>
@@ -1182,7 +1311,7 @@
                         <h3 class="client-name">ShadowClient</h3>
                         <div class="client-version">v1.16 - STEALTH</div>
                         <p class="client-description">Lightweight stealth client designed for anonymous gameplay. Features advanced anti-detection systems and minimal resource footprint for maximum performance.</p>
-                        <a href="https://shadow-client.dev/" target="_blank" rel="noopener noreferrer" class="launch-btn dark-purple">
+                        <a href="javascript:void(0)" onclick="openIframe('https://shadow-client.dev/', 'ShadowClient')" class="launch-btn dark-purple">
                             [LAUNCH_SHADOWCLIENT]
                         </a>
                     </div>
@@ -1190,7 +1319,7 @@
                         <h3 class="client-name">TechnoClient</h3>
                         <div class="client-version">v1.8.8 - HACKED</div>
                         <p class="client-description">Feature-packed hacked client with advanced automation tools. Includes combat assists, movement enhancements, and various utility modules for competitive advantage.</p>
-                        <a href="https://techno-client.pages.dev/" target="_blank" rel="noopener noreferrer" class="launch-btn red">
+                        <a href="javascript:void(0)" onclick="openIframe('https://techno-client.pages.dev/', 'TechnoClient')" class="launch-btn red">
                             [LAUNCH_TECHNOCLIENT]
                         </a>
                     </div>
@@ -1205,7 +1334,7 @@
                         <h3 class="client-name">VoidClient</h3>
                         <div class="client-version">v1.8.8 - UTILITY</div>
                         <p class="client-description">Utility-focused client with essential tools for server management and gameplay enhancement. Perfect for moderators and advanced players who need specialized tools.</p>
-                        <a href="https://void-client.net/" target="_blank" rel="noopener noreferrer" class="launch-btn indigo">
+                        <a href="javascript:void(0)" onclick="openIframe('https://void-client.net/', 'VoidClient')" class="launch-btn indigo">
                             [LAUNCH_VOIDCLIENT]
                         </a>
                     </div>
@@ -1213,7 +1342,7 @@
                         <h3 class="client-name">HyperClient</h3>
                         <div class="client-version">v1.8.8 - SPEED</div>
                         <p class="client-description">Ultra-fast client optimized for maximum performance and minimal latency. Features aggressive optimization algorithms and streamlined networking protocols.</p>
-                        <a href="https://hyper-client.io/" target="_blank" rel="noopener noreferrer" class="launch-btn yellow">
+                        <a href="javascript:void(0)" onclick="openIframe('https://hyper-client.io/', 'HyperClient')" class="launch-btn yellow">
                             [LAUNCH_HYPERCLIENT]
                         </a>
                     </div>
@@ -1221,7 +1350,7 @@
                         <h3 class="client-name">QuantumClient</h3>
                         <div class="client-version">v1.19 - QUANTUM</div>
                         <p class="client-description">Next-generation client with quantum-inspired algorithms and advanced AI-assisted gameplay features. Represents the cutting edge of Eaglercraft technology.</p>
-                        <a href="https://quantum-client.tech/" target="_blank" rel="noopener noreferrer" class="launch-btn">
+                        <a href="javascript:void(0)" onclick="openIframe('https://quantum-client.tech/', 'QuantumClient')" class="launch-btn">
                             [LAUNCH_QUANTUMCLIENT]
                         </a>
                     </div>
@@ -1281,7 +1410,7 @@
                     <h3 class="client-name">Eaglercraft Mods</h3>
                     <p class="client-description">Enhance your gameplay with community-created mods. Browse through performance optimizations, visual enhancements, and gameplay modifications for various client versions.</p>
                     <div class="resource-links">
-                        <a href="https://eaglerrinth.github.io" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <a href="javascript:void(0)" onclick="openIframe('https://eaglerrinth.github.io', 'Eaglercraft Mods')" class="resource-link">
                             [BROWSE_MODS]
                         </a>
                     </div>
@@ -1290,10 +1419,10 @@
                     <h3 class="client-name">Resource Packs</h3>
                     <p class="client-description">Customize your game's look and feel with resource packs. From realistic textures to stylized art styles, find the perfect visual theme for your gameplay experience.</p>
                     <div class="resource-links">
-                        <a href="https://modrinth.com/resourcepacks?v=1.8.8&v=1.12.2" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <a href="javascript:void(0)" onclick="openIframe('https://modrinth.com/resourcepacks?v=1.8.8&v=1.12.2', 'Modrinth Resource Packs')" class="resource-link">
                             [MODRINTH_PACKS]
                         </a>
-                        <a href="https://www.planetminecraft.com/resources/texture_packs/" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <a href="javascript:void(0)" onclick="openIframe('https://www.planetminecraft.com/resources/texture_packs/', 'Planet Minecraft Packs')" class="resource-link">
                             [PLANET_MINECRAFT]
                         </a>
                     </div>
@@ -1302,7 +1431,7 @@
                     <h3 class="client-name">Shader Packs</h3>
                     <p class="client-description">Transform your visual experience with advanced shader packs. Add realistic lighting, water effects, and atmospheric enhancements to supported clients.</p>
                     <div class="resource-links">
-                        <a href="https://shaders.eaglercraft.com/" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <a href="javascript:void(0)" onclick="openIframe('https://shaders.eaglercraft.com/', 'Shader Library')" class="resource-link">
                             [SHADER_LIBRARY]
                         </a>
                     </div>
@@ -1311,10 +1440,10 @@
                     <h3 class="client-name">Development Tools</h3>
                     <p class="client-description">Tools and resources for developers creating Eaglercraft clients, mods, and servers. Documentation, APIs, and development environments.</p>
                     <div class="resource-links">
-                        <a href="https://github.com/LAX1DUDE/eaglercraft" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <a href="javascript:void(0)" onclick="openIframe('https://github.com/LAX1DUDE/eaglercraft', 'Eaglercraft GitHub')" class="resource-link">
                             [GITHUB_REPO]
                         </a>
-                        <a href="https://eaglercraft.dev/docs" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <a href="javascript:void(0)" onclick="openIframe('https://eaglercraft.dev/docs', 'Developer Docs')" class="resource-link">
                             [DEV_DOCS]
                         </a>
                     </div>
@@ -1328,7 +1457,7 @@
             <div class="discord-section">
                 <h3 class="client-name">Join the Network</h3>
                 <p class="client-description">Connect with the Eaglercraft community on Discord. Get support, share creations, participate in events, and stay updated with the latest developments in the Eaglercraft ecosystem.</p>
-                <a href="https://discord.gg/QSzVeNMzHD" target="_blank" rel="noopener noreferrer" class="discord-btn">
+                <a href="javascript:void(0)" onclick="openIframe('https://discord.gg/QSzVeNMzHD', 'Discord Community')" class="discord-btn">
                     [JOIN_DISCORD_SERVER]
                 </a>
             </div>
@@ -1355,6 +1484,74 @@
     </div>
 
     <script>
+        // Iframe Modal Functions
+        function openIframe(url, title) {
+            const modal = document.getElementById('iframeModal');
+            const iframe = document.getElementById('iframeContent');
+            const iframeTitle = document.getElementById('iframeTitle');
+            const iframeUrl = document.getElementById('iframeUrl');
+            const loading = document.getElementById('iframeLoading');
+            
+            // Set title and URL
+            iframeTitle.textContent = title.toUpperCase();
+            iframeUrl.textContent = url;
+            
+            // Show modal
+            modal.classList.add('active');
+            
+            // Show loading
+            loading.style.display = 'block';
+            iframe.style.display = 'none';
+            
+            // Load iframe
+            iframe.src = url;
+            
+            // Hide loading when iframe loads
+            iframe.onload = function() {
+                loading.style.display = 'none';
+                iframe.style.display = 'block';
+            };
+            
+            // Add techy notification
+            showTechyNotification(`>>> ESTABLISHING_IFRAME_CONNECTION: ${title}`, 'info');
+            
+            // Prevent body scroll
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeIframe() {
+            const modal = document.getElementById('iframeModal');
+            const iframe = document.getElementById('iframeContent');
+            
+            // Hide modal
+            modal.classList.remove('active');
+            
+            // Clear iframe src to stop any media/scripts
+            iframe.src = 'about:blank';
+            
+            // Restore body scroll
+            document.body.style.overflow = '';
+            
+            showTechyNotification('>>> IFRAME_CONNECTION_TERMINATED', 'success');
+        }
+        
+        // Close modal when clicking outside
+        document.getElementById('iframeModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeIframe();
+            }
+        });
+        
+        // Close with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('iframeModal');
+                if (modal.classList.contains('active')) {
+                    closeIframe();
+                }
+            }
+        });
+
         // Enhanced server data with techy formatting
         const serverData = [
             {
@@ -1518,27 +1715,22 @@
         let currentFilter = 'all';
         let searchQuery = '';
         let matrixInterval;
-        const matrixCanvas = document.getElementById('matrix-canvas'); // Get canvas reference early
+        const matrixCanvas = document.getElementById('matrix-canvas');
 
         // --- Mock Server Status Checker ---
         function checkServerStatus(server) {
             return new Promise(resolve => {
-                // Simulate network latency (200ms to 1000ms)
                 const latency = Math.floor(Math.random() * 800) + 200; 
-                // Simulate failure occasionally (1 in 10 chance)
                 const status = Math.random() < 0.9 ? 'online' : 'offline'; 
-                
-                // Determine high/low ping status
                 const latencyClass = latency < 400 ? 'low' : 'high';
 
-                // Resolve after simulated latency
                 setTimeout(() => {
                     resolve({
                         status: status,
                         latency: status === 'online' ? `${latency}ms` : 'N/A',
                         latencyClass: status === 'online' ? latencyClass : 'offline'
                     });
-                }, latency * 0.5); // Faster check simulation
+                }, latency * 0.5);
             });
         }
         
@@ -1573,30 +1765,24 @@
                  showTechyNotification(`>>> ERROR: FAILED_TO_SAVE_CONFIG`, 'error');
                  console.error("Error saving settings to localStorage:", e);
             }
-            applySettings(); // Apply changes immediately
+            applySettings();
         }
 
         function applySettings() {
-            // Apply Matrix Background Setting
             if (currentSettings.matrix_bg_enabled && matrixCanvas) {
                 matrixCanvas.style.display = 'block';
-                // Restart matrix animation if needed
                 if (!matrixInterval) {
                     initMatrixRain();
                 }
-                document.body.style.setProperty('--primary-bg', '#0a0a0f'); // Ensure dark theme base
+                document.body.style.setProperty('--primary-bg', '#0a0a0f');
             } else if (matrixCanvas) {
                 matrixCanvas.style.display = 'none';
-                // Clear matrix interval to save resources
                 if (matrixInterval) {
                     clearInterval(matrixInterval);
                     matrixInterval = null;
                 }
-                document.body.style.setProperty('--primary-bg', '#111118'); // Slightly less dark base without matrix
+                document.body.style.setProperty('--primary-bg', '#111118');
             }
-
-            // Other theme logic (placeholder)
-            // if (currentSettings.theme_mode === 'light') { /* ... */ }
         }
         
         // Full Matrix Rain Effect
@@ -1627,7 +1813,6 @@
                 for (let i = 0; i < drops.length; i++) {
                     const char = matrixChars[Math.floor(Math.random() * matrixChars.length)];
                     
-                    // Create gradient effect - brighter at the front of the drop
                     const gradient = ctx.createLinearGradient(0, drops[i] * fontSize, 0, (drops[i] + 1) * fontSize);
                     gradient.addColorStop(0, '#00ff41');
                     gradient.addColorStop(0.1, '#00ff41');
@@ -1637,7 +1822,6 @@
                     ctx.fillStyle = gradient;
                     ctx.fillText(char, i * fontSize, drops[i] * fontSize);
                     
-                    // Add cyan highlights randomly
                     if (Math.random() > 0.98) {
                         ctx.fillStyle = '#00ffff';
                         ctx.fillText(char, i * fontSize, drops[i] * fontSize);
@@ -1650,52 +1834,40 @@
                 }
             }
             
-            // Clear any existing interval
             if (matrixInterval) {
                 clearInterval(matrixInterval);
             }
             
             matrixInterval = setInterval(draw, 50);
             
-            // Handle window resize
             window.addEventListener('resize', () => {
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
             });
         }
 
-        // Enhanced initialization with hash routing
         function init() {
-            loadSettings(); // Load settings before initializing matrix and listeners
-            applySettings(); // Apply initial settings
+            loadSettings();
+            applySettings();
             setupEventListeners();
             setupHashRouting();
             updateGlobalStats();
             startTechyEffects();
             addMatrixInteractions();
-            
-            // Handle initial page load
             handleHashChange();
         }
 
         function setupHashRouting() {
-            // Listen for hash changes
             window.addEventListener('hashchange', handleHashChange);
-            
-            // Handle browser back/forward buttons
             window.addEventListener('popstate', handleHashChange);
             
-            // Add click handlers to navigation links
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.addEventListener('click', function(e) {
                     e.preventDefault();
                     const pageId = this.getAttribute('data-page');
                     navigateToPage(pageId);
-                    
-                    // Show loading effect
                     showNavigationLoading();
                     
-                    // Add visual feedback
                     this.style.transform = 'scale(0.95)';
                     setTimeout(() => {
                         this.style.transform = '';
@@ -1704,7 +1876,6 @@
             });
         }
 
-        // Show navigation loading effect
         function showNavigationLoading() {
             const breadcrumb = document.getElementById('breadcrumb');
             if (breadcrumb) {
@@ -1719,7 +1890,6 @@
         }
 
         function startTechyEffects() {
-            // Add random glowing effects to elements
             setInterval(() => {
                 const cards = document.querySelectorAll('.server-card, .client-card');
                 cards.forEach(card => {
@@ -1733,25 +1903,20 @@
             }, 3000);
         }
 
-        // Hash-based routing system
         function showPage(pageId) {
-            // Validate page ID
             const validPages = ['clients', 'servers', 'resources', 'discord', 'settings'];
             if (!validPages.includes(pageId)) {
-                pageId = 'clients'; // Default fallback
+                pageId = 'clients';
             }
 
-            // Hide all page sections
             document.querySelectorAll('.page-content').forEach(section => {
                 section.classList.add('hidden');
             });
 
-            // Show the selected page section
             const activePage = document.getElementById(pageId);
             if (activePage) {
                 activePage.classList.remove('hidden');
                 
-                // If showing servers page, render servers
                 if (pageId === 'servers') {
                     renderServers();
                 } else if (pageId === 'settings') {
@@ -1759,21 +1924,17 @@
                 }
             }
 
-            // Update the active state of navigation buttons
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             
-            // Find the button that corresponds to the pageId and add the active class
             const activeBtn = document.querySelector(`.nav-btn[data-page="${pageId}"]`);
             if (activeBtn) {
                 activeBtn.classList.add('active');
             }
 
-            // Update breadcrumb navigation
             updateBreadcrumb(pageId);
 
-            // Update document title based on current page
             const pageTitles = {
                 'clients': 'Eaglercraft Central - Clients',
                 'servers': 'Eaglercraft Central - Servers', 
@@ -1784,7 +1945,6 @@
             document.title = pageTitles[pageId] || 'Eaglercraft Central - Ultimate Hub 2025';
         }
 
-        // Update breadcrumb navigation
         function updateBreadcrumb(pageId) {
             const breadcrumbPaths = {
                 'clients': 'ROOT/CLIENTS',
@@ -1798,7 +1958,6 @@
             if (currentPathElement) {
                 currentPathElement.textContent = breadcrumbPaths[pageId] || 'ROOT/CLIENTS';
                 
-                // Add glow effect
                 currentPathElement.style.textShadow = '0 0 10px var(--accent-color)';
                 setTimeout(() => {
                     currentPathElement.style.textShadow = '';
@@ -1806,13 +1965,12 @@
             }
         }
 
-        // Hash routing functions
         function getCurrentPageFromHash() {
             const hash = window.location.hash;
             if (hash.startsWith('#/')) {
-                return hash.substring(2); // Remove #/ prefix
+                return hash.substring(2);
             }
-            return 'clients'; // Default page
+            return 'clients';
         }
 
         function navigateToPage(pageId) {
@@ -1823,10 +1981,8 @@
             const pageId = getCurrentPageFromHash();
             showPage(pageId);
             
-            // Console log for debugging
             console.log(`>>> NAVIGATED TO: ${pageId.toUpperCase()}_PROTOCOL`);
             
-            // Add techy transition effect
             document.body.style.transform = 'scale(0.99)';
             document.body.style.opacity = '0.9';
             setTimeout(() => {
@@ -1835,15 +1991,12 @@
             }, 150);
         }
 
-        // Enhanced event listeners
         function setupEventListeners() {
-            // Search with techy feedback
             const searchInput = document.getElementById('searchInput');
             if (searchInput) {
                 searchInput.addEventListener('input', function(e) {
                     searchQuery = e.target.value.toLowerCase();
                     
-                    // Add visual feedback for search
                     if (searchQuery) {
                         searchInput.style.borderColor = 'var(--accent-color)';
                         searchInput.style.boxShadow = '0 0 20px rgba(0, 255, 255, 0.2)';
@@ -1856,14 +2009,12 @@
                 });
             }
 
-            // Enhanced filter tabs
             document.querySelectorAll('.filter-tab').forEach(tab => {
                 tab.addEventListener('click', function() {
                     document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
                     this.classList.add('active');
                     currentFilter = this.dataset.filter;
                     
-                    // Add click effect
                     this.style.transform = 'scale(0.95)';
                     setTimeout(() => {
                         this.style.transform = '';
@@ -1890,7 +2041,6 @@
             });
         }
 
-        // Enhanced server rendering with techy animations
         function renderServers() {
             const filteredServers = filterServers();
             const serversGrid = document.getElementById('serversGrid');
@@ -1908,7 +2058,6 @@
                 return;
             }
             
-            // Add staggered animation
             serversGrid.innerHTML = '';
             filteredServers.forEach((server, index) => {
                 setTimeout(() => {
@@ -1963,14 +2112,12 @@
                 </button>
             `;
             
-            // Animate in
             setTimeout(() => {
                 cardElement.style.transition = 'all 0.6s ease';
                 cardElement.style.opacity = '1';
                 cardElement.style.transform = 'translateY(0)';
             }, 50);
             
-            // Start status check immediately
             updateServerStatus(server.rank, server);
             
             return cardElement;
@@ -1982,7 +2129,6 @@
             const playerCountEl = document.getElementById(`player-count-${rank}`);
             const serverNameEl = document.getElementById(`server-name-${rank}`);
 
-            // Set initial loading state
             if (statusInd) {
                 statusInd.className = 'status-indicator loading';
             }
@@ -1992,13 +2138,11 @@
             }
 
             checkServerStatus(server).then(result => {
-                // Update status indicator
                 if (statusInd) {
                     statusInd.classList.remove('loading');
                     statusInd.classList.add(result.status);
                 }
                 
-                // Update latency display
                 if (latencyEl) {
                     latencyEl.classList.remove('loading');
                     latencyEl.classList.remove('high');
@@ -2007,7 +2151,6 @@
                     latencyEl.textContent = result.latency;
                 }
                 
-                // Update player count based on status (mocking a disconnect)
                 if (playerCountEl && result.status === 'offline') {
                     playerCountEl.textContent = '0';
                     if (serverNameEl) serverNameEl.style.opacity = '0.7';
@@ -2015,21 +2158,18 @@
                      serverNameEl.style.opacity = '1.0';
                 }
 
-                // Add visual feedback
                 if (result.status === 'offline') {
                     showTechyNotification(`>>> OFFLINE_NODE_DETECTED: ${server.name}`, 'error');
                 }
             });
         }
 
-        // --- Settings Page Rendering ---
         function renderSettings() {
             const settingsGrid = document.getElementById('settingsGrid');
             if (!settingsGrid) return;
             
             settingsGrid.innerHTML = '';
             
-            // Setting 1: Matrix Background
             settingsGrid.appendChild(createSettingCard(
                 'Matrix Background',
                 'Toggle the continuous digital stream background effect. Disabling may improve client performance.',
@@ -2039,7 +2179,6 @@
                 handleSettingChange
             ));
 
-            // Setting 2: Theme Placeholder
             settingsGrid.appendChild(createSettingCard(
                 'Theme Protocol',
                 'Select the visual theme protocol (Dark Cyber, Light Mode). Requires SYSTEM_REBOOT to apply fully.',
@@ -2049,7 +2188,6 @@
                 handleSettingChange
             ));
 
-             // Setting 3: Client Cache
             settingsGrid.appendChild(createSettingCard(
                 'Client Cache',
                 'Clear local client data and configurations stored in the browser (e.g., texture packs, keybinds).',
@@ -2059,7 +2197,6 @@
                 handleCacheClear
             ));
 
-            // Status message
             const statusEl = document.getElementById('settingsMessage');
             if (statusEl) {
                 statusEl.textContent = `CONFIG_STATUS: READY. ${Object.keys(currentSettings).length} CONFIGURATION_KEYS_LOADED.`;
@@ -2095,7 +2232,6 @@
                     </select>
                 `;
                 card.appendChild(controlWrapper);
-                // Placeholder function for selection changes
                 card.querySelector(`#setting-${key}`).addEventListener('change', (e) => {
                      saveSetting(key, e.target.value);
                      showTechyNotification(`>>> THEME_PROTOCOL_CHANGE_REQUEST: ${e.target.value.toUpperCase()}. REBOOT_REQUIRED.`, 'info');
@@ -2116,12 +2252,10 @@
         }
 
         function handleCacheClear() {
-            // Note: This only clears *this app's* settings, not browser cache generally.
             const statusEl = document.getElementById('settingsMessage');
             
             if (statusEl) statusEl.textContent = `CONFIG_STATUS: INITIATING_CACHE_WIPE...`;
             
-            // Simulate clearing cache
             setTimeout(() => {
                 localStorage.removeItem('eaglercraft_settings');
                 currentSettings = DEFAULT_SETTINGS;
@@ -2133,7 +2267,6 @@
             }, 1000);
         }
         
-        // Enhanced copy function with techy feedback
         function copyAddress(address) {
             if (navigator.clipboard && window.isSecureContext) {
                 navigator.clipboard.writeText(address).then(() => {
@@ -2166,7 +2299,6 @@
             document.body.removeChild(textArea);
         }
 
-        // Techy notification system
         function showTechyNotification(message, type = 'info') {
             const notification = document.createElement('div');
             const bgColor = type === 'success' ? 'linear-gradient(45deg, #00ff88, #00d2ff)' : 
@@ -2194,19 +2326,16 @@
             notification.textContent = message;
             document.body.appendChild(notification);
             
-            // Animate in
             setTimeout(() => {
                 notification.style.transform = 'translateX(0)';
             }, 100);
             
-            // Animate out
             setTimeout(() => {
                 notification.style.transform = 'translateX(100%)';
                 setTimeout(() => notification.remove(), 400);
             }, 3000);
         }
 
-        // Enhanced global stats with techy counters
         function updateGlobalStats() {
             const totalServers = serverData.length;
             const totalPlayers = serverData.reduce((sum, server) => {
@@ -2215,7 +2344,6 @@
                 return sum + avgPlayers;
             }, 0);
             
-            // Animate numbers
             animateCounter('totalServers', totalServers, '+');
             animateCounter('totalPlayers', Math.floor(totalPlayers / 1000) * 1000, 'K+', 1000);
             animateCounter('totalGamemodes', 25, '+');
@@ -2245,13 +2373,10 @@
             }, 30);
         }
 
-        // Add some Matrix-style effects and enhanced interactions
         function addMatrixInteractions() {
-            // Add matrix glitch effect to server cards on hover
             const cards = document.querySelectorAll('.server-card, .client-card');
             cards.forEach(card => {
                 card.addEventListener('mouseenter', () => {
-                    // Temporary matrix-style text scramble effect
                     const name = card.querySelector('.server-name, .client-name');
                     if (name && !name.dataset.scrambling) {
                         scrambleText(name);
@@ -2287,7 +2412,6 @@
             }, 30);
         }
 
-        // Initialize when page loads
         document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
